@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:cinemamovie/Screens/cartScreen.dart';
-import 'package:cinemamovie/Screens/movieDetail.dart';
 import 'package:cinemamovie/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -10,7 +8,10 @@ import 'package:http/http.dart';
 
 class BookingScreen extends StatefulWidget {
   final movieData;
-  const BookingScreen({Key? key, required this.movieData}) : super(key: key);
+  const BookingScreen({
+    Key? key,
+    required this.movieData,
+  }) : super(key: key);
 
   @override
   State<BookingScreen> createState() => _BookingScreenState();
@@ -32,19 +33,21 @@ class _BookingScreenState extends State<BookingScreen> {
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
   }
 
-  void get_price() async {
+  void getPrice() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("${dotenv.env['BASE_URL']}/projections/getProjectionById?id=${widget.movieData["_id"]}"));
-    print(res.body);
+    var res = await get(Uri.parse(
+        "${dotenv.env['BASE_URL']}/projections/getProjectionById?id=${widget.movieData["_id"]}"));
+    debugPrint(res.body);
 
     setState(() {
       projs = jsonDecode(res.body);
     });
   }
 
-  void get_cinemas() async {
+  void getCinemas() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("${dotenv.env['BASE_URL']}/cinemas/getCinemas"));
+    var res =
+        await get(Uri.parse("${dotenv.env['BASE_URL']}/cinemas/getCinemas"));
 
     setState(() {
       cinemas = jsonDecode(res.body);
@@ -54,10 +57,11 @@ class _BookingScreenState extends State<BookingScreen> {
   void getStorageMovie() {
     const storage = FlutterSecureStorage();
 
-    storage.read(key: "cartData")
-    .then((cartData) {
-      var matchMovie = jsonDecode(cartData!).where((i) => i["_id"] == widget.movieData["_id"]).toList();
-      if(matchMovie.length != 0) {
+    storage.read(key: "cartData").then((cartData) {
+      var matchMovie = jsonDecode(cartData!)
+          .where((i) => i["_id"] == widget.movieData["_id"])
+          .toList();
+      if (matchMovie.length != 0) {
         setState(() {
           selectedSeats = matchMovie[0]["seats"].cast<int>();
         });
@@ -67,41 +71,42 @@ class _BookingScreenState extends State<BookingScreen> {
 
   List<dynamic> handleCartAdd(cartData, movie) {
     var matchMovie = cartData.where((i) => i["_id"] == movie["_id"]).toList();
-    if(matchMovie.length != 0) {
+    if (matchMovie.length != 0) {
       cartData.removeWhere((i) => i["_id"] == movie["_id"]);
       matchMovie[0]["seats"] = movie["seats"];
       matchMovie[0]["price"] = movie["price"];
       cartData.add(matchMovie[0]);
       return cartData;
-    }
-
-    else {
+    } else {
       cartData.add(movie);
       return cartData;
     }
   }
 
-  Color set_seat_color(int index) {
-    if(unavailableSeats.contains(index)) return Colors.grey;
-    if(selectedSeats.contains(index)) return Colors.yellow;
+  Color setSeatColor(int index) {
+    if (unavailableSeats.contains(index)) return Colors.grey;
+    if (selectedSeats.contains(index)) return Colors.yellow;
 
     return Colors.white;
   }
 
-  void toggle_seat(int index) {
-    if(unavailableSeats.contains(index)) return;
+  void toggleSeat(int index) {
+    if (unavailableSeats.contains(index)) return;
 
     setState(() {
-      if(selectedSeats.contains(index)) selectedSeats.remove(index);
-      else selectedSeats.add(index);
+      if (selectedSeats.contains(index)) {
+        selectedSeats.remove(index);
+      } else {
+        selectedSeats.add(index);
+      }
     });
   }
 
   @override
   void initState() {
     getStorageMovie();
-    get_price();
-    get_cinemas();
+    getPrice();
+    getCinemas();
     super.initState();
   }
 
@@ -111,7 +116,6 @@ class _BookingScreenState extends State<BookingScreen> {
       body: Container(
         margin: const EdgeInsets.only(top: 50.0),
         width: MediaQuery.of(context).size.width,
-
         child: Stack(
           children: [
             Column(
@@ -125,7 +129,6 @@ class _BookingScreenState extends State<BookingScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: const Color(0xFF2b2a3a),
                   ),
-
                   child: Row(
                     children: [
                       Container(
@@ -135,11 +138,11 @@ class _BookingScreenState extends State<BookingScreen> {
                           child: SizedBox(
                             width: 130.0,
                             height: 200.0,
-                            child: Image.network(widget.movieData["image"], fit: BoxFit.cover),
+                            child: Image.network(widget.movieData["image"],
+                                fit: BoxFit.cover),
                           ),
                         ),
                       ),
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -148,49 +151,35 @@ class _BookingScreenState extends State<BookingScreen> {
                             child: Text(
                               widget.movieData["title"],
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0
-                              ),
+                                  color: Colors.white, fontSize: 18.0),
                             ),
                           ),
-
                           Container(
                             margin: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
                               widget.movieData["type"],
-                              style: const TextStyle(
-                                  color: Colors.white
-                              ),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-
                           Container(
                             margin: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
                               widget.movieData["categorie"],
-                              style: const TextStyle(
-                                  color: Color(0xFFD2BE07)
-                              ),
+                              style: const TextStyle(color: Color(0xFFD2BE07)),
                             ),
                           ),
-
                           Container(
                             margin: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
                               widget.movieData["cinema"],
-                              style: const TextStyle(
-                                  color: Colors.white
-                              ),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
-
                           Container(
                             margin: const EdgeInsets.only(bottom: 10.0),
                             child: Text(
                               parseDate(widget.movieData["date"]),
-                              style: const TextStyle(
-                                  color: Colors.white
-                              ),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                         ],
@@ -198,18 +187,15 @@ class _BookingScreenState extends State<BookingScreen> {
                     ],
                   ),
                 ),
-
                 Container(
                   alignment: Alignment.center,
                   width: (MediaQuery.of(context).size.width - 50.0),
                   margin: const EdgeInsets.fromLTRB(25.0, 25.0, 0, 8.0),
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     color: const Color(0xFF2b2a3a),
                   ),
-
                   child: Column(
                     children: [
                       Container(
@@ -217,29 +203,27 @@ class _BookingScreenState extends State<BookingScreen> {
                         child: const Text(
                           "Select Your Seats",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
-
                         children: [
                           Container(
-                            width: ((MediaQuery.of(context).size.width - 50.0) / 2) - 30.0,
+                            width: ((MediaQuery.of(context).size.width - 50.0) /
+                                    2) -
+                                30.0,
                             height: 125.0,
                             margin: const EdgeInsets.only(bottom: 30.0),
-
                             child: Center(
                               child: GridView.builder(
                                 shrinkWrap: true,
                                 itemCount: 24,
-
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 6,
                                   mainAxisSpacing: 5.0,
                                   crossAxisSpacing: 5.0,
@@ -247,29 +231,29 @@ class _BookingScreenState extends State<BookingScreen> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      toggle_seat(index);
+                                      toggleSeat(index);
                                     },
                                     child: Icon(
                                       Icons.event_seat,
-                                      color: set_seat_color(index),
+                                      color: setSeatColor(index),
                                     ),
                                   );
                                 },
                               ),
                             ),
                           ),
-
                           Container(
-                            width: ((MediaQuery.of(context).size.width - 50.0) / 2) - 30.0,
+                            width: ((MediaQuery.of(context).size.width - 50.0) /
+                                    2) -
+                                30.0,
                             height: 125.0,
                             margin: const EdgeInsets.only(bottom: 30.0),
-
                             child: Center(
                               child: GridView.builder(
                                 shrinkWrap: true,
                                 itemCount: 24,
-
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 6,
                                   mainAxisSpacing: 5.0,
                                   crossAxisSpacing: 5.0,
@@ -277,11 +261,11 @@ class _BookingScreenState extends State<BookingScreen> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      toggle_seat(index + 24);
+                                      toggleSeat(index + 24);
                                     },
                                     child: Icon(
                                       Icons.event_seat,
-                                      color: set_seat_color(index + 24),
+                                      color: setSeatColor(index + 24),
                                     ),
                                   );
                                 },
@@ -293,65 +277,53 @@ class _BookingScreenState extends State<BookingScreen> {
                     ],
                   ),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: const EdgeInsets.only(right: 10.0),
-
                       child: Row(
                         children: const [
                           Icon(
                             Icons.circle,
                             color: Colors.grey,
                           ),
-
                           Text(
                             "Reserved",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500
-                            ),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
                     ),
-
                     Container(
                       margin: const EdgeInsets.only(right: 10.0),
-
                       child: Row(
                         children: const [
                           Icon(
                             Icons.circle,
                             color: Colors.white,
                           ),
-
                           Text(
                             "Available",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500
-                            ),
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
                     ),
-
                     Row(
                       children: const [
                         Icon(
                           Icons.circle,
                           color: Colors.yellow,
                         ),
-
                         Text(
                           "Selected",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500
-                          ),
+                              color: Colors.white, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -359,7 +331,6 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ],
             ),
-
             Positioned(
               top: -15.0,
               left: 5,
@@ -373,7 +344,6 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ),
             ),
-
             Positioned(
               bottom: 0,
               child: Container(
@@ -383,10 +353,8 @@ class _BookingScreenState extends State<BookingScreen> {
                   color: const Color(0xFF2b2a3a),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                   children: [
                     Column(
                       children: [
@@ -394,154 +362,145 @@ class _BookingScreenState extends State<BookingScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 15.0),
                           child: const Text(
                             "Select Location, Date and Time",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17.0
-                            ),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 17.0),
                           ),
                         ),
-
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                              children: [
-                                const SizedBox(
-                                  height: 10.0,
-                                  width: 15.0,
-                                ),
-
-                                Row(
-                                  children: cinemas.asMap().entries.map((entry) =>
-                                      Container(
-                                        margin: const EdgeInsets.only(right: 15.0),
-
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              selectedCinIdx = entry.key;
-                                            });
-                                          },
-
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: ((selectedCinIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(15.0),
-                                            ),
-                                          ),
-
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                entry.value["name"],
-                                                style: const TextStyle(
-                                                    fontSize: 17.0
-                                                ),
-                                              ),
-                                            ],
+                          child: Row(children: [
+                            const SizedBox(
+                              height: 10.0,
+                              width: 15.0,
+                            ),
+                            Row(
+                              children: cinemas
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (entry) => Container(
+                                      margin:
+                                          const EdgeInsets.only(right: 15.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedCinIdx = entry.key;
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              ((selectedCinIdx == entry.key)
+                                                  ? const Color(0xFFD2BE07)
+                                                  : const Color(0xFF939194)),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
                                           ),
                                         ),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              entry.value["name"],
+                                              style: const TextStyle(
+                                                  fontSize: 17.0),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                  ).toList(),
-                                ),
-                              ]
-                          ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ]),
                         ),
-
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              const SizedBox(
-                                height: 10.0,
-                                width: 15.0,
-                              ),
-
-                              Row(
-                                children: projs.asMap().entries.map((entry) =>
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 15.0),
-
+                          child: Row(children: [
+                            const SizedBox(
+                              height: 10.0,
+                              width: 15.0,
+                            ),
+                            Row(
+                              children: projs
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (entry) => Container(
+                                      margin:
+                                          const EdgeInsets.only(right: 15.0),
                                       child: ElevatedButton(
                                         onPressed: () {
                                           setState(() {
                                             selectedTimeIdx = entry.key;
                                           });
                                         },
-
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: ((selectedTimeIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
+                                          backgroundColor:
+                                              ((selectedTimeIdx == entry.key)
+                                                  ? const Color(0xFFD2BE07)
+                                                  : const Color(0xFF939194)),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
                                           ),
                                         ),
-
                                         child: Column(
                                           children: [
                                             Text(
-                                              formattedDate(entry.value["dateProjection"]),
+                                              formattedDate(entry
+                                                  .value["dateProjection"]),
                                               style: const TextStyle(
-                                                  fontSize: 17.0
-                                              ),
+                                                  fontSize: 17.0),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                ).toList(),
-                              )
-                            ]
-                          ),
+                                  )
+                                  .toList(),
+                            )
+                          ]),
                         ),
                       ],
                     ),
-
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.only(bottom: 15.0),
-
-
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
-
                         children: [
                           Container(
                             margin: const EdgeInsets.only(right: 15.0),
-
                             child: Column(
                               children: [
                                 const Text(
                                   "Total Price",
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w500
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w500),
                                 ),
-
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 5.0),
                                   margin: const EdgeInsets.only(top: 5.0),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0)
-                                  ),
-
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
                                   child: Row(
                                     children: [
                                       const Icon(
                                         Icons.star_rate,
                                         color: Color(0xFFD2BE07),
-
                                       ),
-
                                       Text(
                                         "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] * selectedSeats.length).toString()} dt",
                                         style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w500
-                                        ),
+                                            color: Colors.black,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                     ],
                                   ),
@@ -549,15 +508,12 @@ class _BookingScreenState extends State<BookingScreen> {
                               ],
                             ),
                           ),
-
                           Container(
                             width: 200.0,
                             height: 40.0,
                             margin: const EdgeInsets.only(left: 15.0),
-
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
-
                               gradient: const LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.bottomLeft,
@@ -565,38 +521,44 @@ class _BookingScreenState extends State<BookingScreen> {
                                 stops: [0.0, 1.0],
                               ),
                             ),
-
                             child: ElevatedButton(
                               onPressed: () async {
-                                if(selectedSeats.isEmpty) return;
+                                if (selectedSeats.isEmpty) return;
 
                                 const storage = FlutterSecureStorage();
-                                String? cartData = await storage.read(key: "cartData");
+                                String? cartData =
+                                    await storage.read(key: "cartData");
 
                                 var jsonCartData = jsonDecode(cartData!);
                                 var addMovie = widget.movieData;
                                 addMovie["seats"] = selectedSeats;
-                                addMovie["price"] = projs[selectedTimeIdx]["prix"];
+                                addMovie["price"] =
+                                    projs[selectedTimeIdx]["prix"];
 
                                 jsonCartData.add(widget.movieData);
                                 //await storage.write(key: "cartData", value: jsonEncode([]));
 
-                                storage.write(key: "cartData", value: jsonEncode(handleCartAdd(jsonCartData, addMovie)))
-                                .then((res) {
+                                storage
+                                    .write(
+                                        key: "cartData",
+                                        value: jsonEncode(handleCartAdd(
+                                            jsonCartData, addMovie)))
+                                    .then((res) {
                                   Navigator.push(
-                                      context, MaterialPageRoute(builder: (context) => const CartScreen()));
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const CartScreen()));
                                 });
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
-
                                 primary: Colors.transparent,
                                 onSurface: Colors.transparent,
                                 shadowColor: Colors.transparent,
                               ),
-
                               child: const Text("Book A Ticket"),
                             ),
                           ),

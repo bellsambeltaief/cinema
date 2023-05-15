@@ -24,7 +24,7 @@ class _LogoScreenState extends State<LogoScreen> {
 
       else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Signin()));
+            context, MaterialPageRoute(builder: (context) => SignIn()));
       }
     });
   }

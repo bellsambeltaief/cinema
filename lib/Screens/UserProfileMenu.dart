@@ -7,33 +7,39 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class UserProfileMenu extends StatefulWidget {
+  const UserProfileMenu({super.key});
+
   @override
   State<UserProfileMenu> createState() => _UserProfileMenuState();
 }
 
 class _UserProfileMenuState extends State<UserProfileMenu> {
   void logout() async {
-    var url = "http://192.168.59.65:5000/api/users/logout";
-    var response = await http.post(Uri.parse(url));
+    var url = "http://192.168.1.122:5000/api/users/logout";
+    var response = await http.post(
+      Uri.parse(url),
+    );
     print(response.statusCode);
-    print(response.body);
+    debugPrint(response.body);
     if (response.statusCode == 200) {
-      final storage = FlutterSecureStorage();
+      final storage = const FlutterSecureStorage();
       await storage.delete(key: "userData");
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Signin()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignIn(),
+        ),
+      );
     } else {
       // erreur lors de l'appel à l'API, vous pouvez afficher un message d'erreur à l'utilisateur
-      print("Erreur lors de la déconnexion");
+      debugPrint("Erreur lors de la déconnexion");
     }
   }
 
   User user = User("", "", "", "");
 
-  int _selectedIndex = 0;
-
   void _getUserData() async {
-    final storage = FlutterSecureStorage();
+    final storage = const FlutterSecureStorage();
 
     String? userData = await storage.read(key: "userData");
     var jsonUser = jsonDecode(userData!);
@@ -65,7 +71,7 @@ class _UserProfileMenuState extends State<UserProfileMenu> {
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(user.image),
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.blue,
             ),
           ),
@@ -73,15 +79,15 @@ class _UserProfileMenuState extends State<UserProfileMenu> {
             child: ListView(
               children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Settings'),
+                  leading: const Icon(Icons.settings),
+                  title: const Text('Settings'),
                   onTap: () {
                     // Do something
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout'),
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Logout'),
                   onTap: logout,
                 ),
               ],

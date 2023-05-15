@@ -1,7 +1,4 @@
-import 'package:cinemamovie/Screens/BannerWidget.dart';
-import 'package:cinemamovie/Screens/HomePage.dart';
 import 'package:cinemamovie/Screens/logoScreen.dart';
-import 'package:cinemamovie/Screens/signin.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -12,9 +9,9 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    theme:ThemeData(
+    theme: ThemeData(
       scaffoldBackgroundColor: const Color(0xFF0F111D),
     ),
-    home: LogoScreen(),
+    home: const LogoScreen(),
   ));
 }
