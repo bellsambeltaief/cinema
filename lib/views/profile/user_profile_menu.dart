@@ -15,7 +15,7 @@ class UserProfileMenu extends StatefulWidget {
 
 class _UserProfileMenuState extends State<UserProfileMenu> {
   void logout() async {
-    var url = "http://192.168.1.21:5000/api/users/logout";
+    var url = "http://192.168.100.57:5000/api/users/logout";
     var response = await http.post(
       Uri.parse(url),
     );

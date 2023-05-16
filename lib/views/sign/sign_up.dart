@@ -3,7 +3,6 @@ import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/views/sign/widgets/account.dart';
 import 'package:cinemamovie/views/sign/widgets/button_sign.dart';
 import 'package:cinemamovie/views/sign/widgets/pic_detector.dart';
-import 'package:cinemamovie/views/sign/widgets/text_field.dart';
 import 'package:cinemamovie/widgets/app_top.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -12,7 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -27,7 +26,7 @@ class _SignUpState extends State<SignUp> {
   bool _emailExist = false;
   Future checkEmailExist() async {
     var res = await post(
-        Uri.parse("http://192.168.1.21:5000/api/users/check-email"),
+        Uri.parse("http://192.168.100.57:5000/api/users/check-email"),
         headers: {"Content-type": "application/json"},
         body: jsonEncode({'email': user.email}));
 
@@ -39,7 +38,7 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   Future save(String url) async {
     var res = await post(
-      Uri.parse("http://192.168.1.21:5000/api/users/signup"),
+      Uri.parse("http://192.168.100.57:5000/api/users/"),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(
         {
@@ -148,11 +147,126 @@ class _SignUpState extends State<SignUp> {
                             :const  PicDetecotor(),
                       ),
                     ),
-                  const TextFieldEnter(hintText: 'Enter Username'
-                     
-                   ),
-                const  TextFieldEnter(hintText: " Enter Email"),
-                 const  TextFieldEnter(hintText: " Enter Password"),
+                Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        controller: TextEditingController(text: user.userName),
+        onChanged: (value) {
+          user.userName = value;
+        },
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Enter something';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+            icon: const Icon(
+              Icons.person,
+              color: Color.fromARGB(255, 255, 213, 0),
+            ),
+            hintText: "Enter username",
+            hintStyle: const TextStyle(
+                fontSize: 20.0, color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),),
+      ),
+    ),
+               Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        controller: TextEditingController(text: user.email),
+        onChanged: (value) {
+          user.email = value;
+        },
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Enter something';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+            icon: const Icon(
+              Icons.person,
+              color: Color.fromARGB(255, 255, 213, 0),
+            ),
+            hintText: "Enter your Email",
+            hintStyle: const TextStyle(
+                fontSize: 20.0, color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),),
+      ),
+    ),
+               Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        controller: TextEditingController(text: user.password),
+        onChanged: (value) {
+          user.password = value;
+        },
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Enter something';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+            icon: const Icon(
+              Icons.person,
+              color: Color.fromARGB(255, 255, 213, 0),
+            ),
+            hintText: "Enter your password",
+            hintStyle: const TextStyle(
+                fontSize: 20.0, color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: const BorderSide(
+                    color: Color.fromARGB(255, 255, 213, 0),),),),
+      ),
+    ),
           
                     Padding(
                       padding: const EdgeInsets.fromLTRB(55, 16, 16, 0),

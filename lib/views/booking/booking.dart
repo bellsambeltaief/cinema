@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 class Booking extends StatefulWidget {
   final movieData;
@@ -28,7 +29,7 @@ class _BookingState extends State<Booking> {
   int selectedTimeIdx = 0;
 
   String formattedDate(dateString) {
-    DateTime parsedDate = DateTime.parse(dateString);
+    DateTime parsedDate = DateTime.now();
 
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
   }
@@ -36,7 +37,7 @@ class _BookingState extends State<Booking> {
   void getPrice() async {
     await dotenv.load(fileName: ".env");
     var res = await get(Uri.parse(
-        "${dotenv.env['BASE_URL']}/projections/getProjectionById?id=${widget.movieData["_id"]}"));
+        "${dotenv.env['BASE_URL']}/cinema"));
     debugPrint(res.body);
 
     setState(() {
@@ -47,7 +48,7 @@ class _BookingState extends State<Booking> {
   void getCinemas() async {
     await dotenv.load(fileName: ".env");
     var res =
-        await get(Uri.parse("${dotenv.env['BASE_URL']}/cinemas/getCinemas"));
+        await get(Uri.parse("${dotenv.env['BASE_URL']}/cinema"));
 
     setState(() {
       cinemas = jsonDecode(res.body);
@@ -112,6 +113,7 @@ class _BookingState extends State<Booking> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 50.0),
@@ -447,8 +449,7 @@ class _BookingState extends State<Booking> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              formattedDate(entry
-                                                  .value["dateProjection"]),
+                                              formattedDate(entry.value[""]),
                                               style: const TextStyle(
                                                   fontSize: 17.0),
                                             ),
@@ -496,7 +497,7 @@ class _BookingState extends State<Booking> {
                                         color: Color(0xFFD2BE07),
                                       ),
                                       Text(
-                                        "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] * selectedSeats.length).toString()} dt",
+                                        "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] ).toString()} dt",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 15.0,

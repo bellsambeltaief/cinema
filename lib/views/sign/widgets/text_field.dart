@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 class TextFieldEnter extends StatelessWidget {
   final String hintText;
   const TextFieldEnter({
-    super.key, required this.hintText,
- 
+  super.key, required this.hintText,
   });
-
-
-
   @override
   Widget build(BuildContext context) {
     
@@ -26,6 +22,7 @@ class TextFieldEnter extends StatelessWidget {
           if (value!.isEmpty) {
             return 'Enter something';
           }
+          return null;
         },
         decoration: InputDecoration(
             icon: const Icon(
