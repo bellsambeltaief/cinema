@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
-import 'package:intl/intl.dart';
 
 class Booking extends StatefulWidget {
   final movieData;
@@ -24,20 +23,18 @@ class _BookingState extends State<Booking> {
 
   List<int> unavailableSeats = [0, 11, 18, 22, 29, 34, 35, 37, 12, 40, 41];
   List<int> selectedSeats = [];
-
+  bool isSelected = false;
   int selectedCinIdx = 0;
   int selectedTimeIdx = 0;
-
-  String formattedDate(dateString) {
-    DateTime parsedDate = DateTime.now();
+String formattedDate(dateString) {
+    DateTime parsedDate = DateTime.parse(dateString);
 
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
   }
 
   void getPrice() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse(
-        "${dotenv.env['BASE_URL']}/cinema"));
+    var res = await get(Uri.parse("${dotenv.env['BASE_URL']}/projections/getProjection"));
     debugPrint(res.body);
 
     setState(() {
@@ -113,7 +110,7 @@ class _BookingState extends State<Booking> {
 
   @override
   Widget build(BuildContext context) {
-
+    
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(top: 50.0),
@@ -355,8 +352,10 @@ class _BookingState extends State<Booking> {
                   color: const Color(0xFF2b2a3a),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: [
                     Column(
                       children: [
@@ -364,106 +363,114 @@ class _BookingState extends State<Booking> {
                           margin: const EdgeInsets.symmetric(vertical: 15.0),
                           child: const Text(
                             "Select Location, Date and Time",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 17.0),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17.0
+                            ),
                           ),
                         ),
+
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(children: [
-                            const SizedBox(
-                              height: 10.0,
-                              width: 15.0,
-                            ),
-                            Row(
-                              children: cinemas
-                                  .asMap()
-                                  .entries
-                                  .map(
-                                    (entry) => Container(
-                                      margin:
-                                          const EdgeInsets.only(right: 15.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            selectedCinIdx = entry.key;
-                                          });
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              ((selectedCinIdx == entry.key)
-                                                  ? const Color(0xFFD2BE07)
-                                                  : const Color(0xFF939194)),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
+                          child: Row(
+                              children: [
+                                const SizedBox(
+                                  height: 10.0,
+                                  width: 15.0,
+                                ),
+
+                                Row(
+                                  children: cinemas.asMap().entries.map((entry) =>
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 15.0),
+
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              selectedCinIdx = entry.key;
+                                            });
+                                          },
+
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: ((selectedCinIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15.0),
+                                            ),
+                                          ),
+
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                onTap: (){
+                                            setState(() {
+                                              isSelected = !isSelected;
+                                            });
+                                                },
+                                                child: Text(
+                                                  entry.value["name"],
+                                                  style: const TextStyle(
+                                                      fontSize: 17.0
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              entry.value["name"],
-                                              style: const TextStyle(
-                                                  fontSize: 17.0),
-                                            ),
-                                          ],
-                                        ),
                                       ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ]),
+                                  ).toList(),
+                                ),
+                              ]
+                          ),
                         ),
-                        SingleChildScrollView(
+isSelected ?  SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Row(children: [
-                            const SizedBox(
-                              height: 10.0,
-                              width: 15.0,
-                            ),
-                            Row(
-                              children: projs
-                                  .asMap()
-                                  .entries
-                                  .map(
-                                    (entry) => Container(
-                                      margin:
-                                          const EdgeInsets.only(right: 15.0),
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                height: 10.0,
+                                width: 15.0,
+                              ),
+
+                              Row(
+                                children: projs.asMap().entries.map((entry) =>
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 15.0),
+
                                       child: ElevatedButton(
                                         onPressed: () {
                                           setState(() {
                                             selectedTimeIdx = entry.key;
                                           });
                                         },
+
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              ((selectedTimeIdx == entry.key)
-                                                  ? const Color(0xFFD2BE07)
-                                                  : const Color(0xFF939194)),
+                                          backgroundColor: ((selectedTimeIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
+                                            borderRadius: BorderRadius.circular(15.0),
                                           ),
                                         ),
+
                                         child: Column(
                                           children: [
                                             Text(
-                                              formattedDate(entry.value[""]),
+                                              formattedDate(entry.value["dateProjection"]),
                                               style: const TextStyle(
-                                                  fontSize: 17.0),
+                                                  fontSize: 17.0
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                  )
-                                  .toList(),
-                            )
-                          ]),
-                        ),
+                                ).toList(),
+                              )
+                            ]
+                          ),
+                        ):Container()
+                      
                       ],
                     ),
+
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.only(bottom: 15.0),
