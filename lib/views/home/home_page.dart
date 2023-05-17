@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/views/booking/booking.dart';
 import 'package:cinemamovie/views/cart/cart.dart';
-import 'package:cinemamovie/views/movie_detail.dart';
+import 'package:cinemamovie/views/movie/movie_detail.dart';
 import 'package:cinemamovie/views/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

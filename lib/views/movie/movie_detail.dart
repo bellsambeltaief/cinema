@@ -104,7 +104,7 @@ class _MovieDetailState extends State<MovieDetail> {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        parseDate(widget.movieData["date"]),
+                                        (widget.movieData["date"]),
                                         style: const TextStyle(
                                             color: Colors.white),
                                       ),

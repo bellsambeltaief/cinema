@@ -5,6 +5,7 @@ import 'package:cinemamovie/views/sign/widgets/button_sign.dart';
 import 'package:cinemamovie/views/sign/widgets/pic_detector.dart';
 import 'package:cinemamovie/widgets/app_top.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -26,7 +27,7 @@ class _SignUpState extends State<SignUp> {
   bool _emailExist = false;
   Future checkEmailExist() async {
     var res = await post(
-        Uri.parse("http://192.168.100.57:5000/api/users/check-email"),
+        Uri.parse("${dotenv.env['BASE_URL']}/users/check-email"),
         headers: {"Content-type": "application/json"},
         body: jsonEncode({'email': user.email}));
 
@@ -38,7 +39,7 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   Future save(String url) async {
     var res = await post(
-      Uri.parse("http://192.168.100.57:5000/api/users/"),
+      Uri.parse("${dotenv.env['BASE_URL']}/users/"),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(
         {
