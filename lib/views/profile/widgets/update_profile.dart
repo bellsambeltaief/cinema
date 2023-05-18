@@ -40,8 +40,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
     final storage = const FlutterSecureStorage();
     final token = await storage.read(key: "token");
     final headers = {"Authorization": "Bearer $token"};
-
-    //  final url = Uri.parse("http://192.168.1.21:5000/api/users/login");
     final userData = await storage.read(key: "userData");
 
     if (userData != null) {
@@ -58,7 +56,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
         ));
       } else {
         // erreur lors de l'appel à l'API, vous pouvez afficher un message d'erreur à l'utilisateur
-        print("Erreur lors de la mise à jour du profil");
+        debugPrint("Erreur lors de la mise à jour du profil");
       }
     }
   }
@@ -248,8 +246,10 @@ class _UpdateProfileState extends State<UpdateProfile> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    updateProfile;
+                  debugPrint  (' ${updateProfile}');
+                    
                   },
+                  
                     style: ButtonStyle(
                                   foregroundColor:
                                       MaterialStateProperty.all(Colors.white),
