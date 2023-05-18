@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cinemamovie/views/booking/widgets/booking_button.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
+import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
 import 'package:cinemamovie/views/booking/widgets/price_content.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_condition.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_content.dart';
@@ -29,7 +30,8 @@ class _BookingState extends State<Booking> {
 
   List<int> unavailableSeats = [0, 11, 18, 22, 29, 34, 35, 37, 12, 40, 41];
   List<int> selectedSeats = [];
- int _selectedIndex = 0;
+
+  int selectedCinIdx = 0;
   int selectedTimeIdx = 0;
 String formattedDate(dateString) {
     DateTime parsedDate = DateTime.parse(dateString);
@@ -87,7 +89,6 @@ String formattedDate(dateString) {
     }
   }
 
-  
   @override
   void initState() {
     getStorageMovie();
@@ -96,8 +97,7 @@ String formattedDate(dateString) {
     super.initState();
   
   }
-    
-
+  
   @override
   Widget build(BuildContext context) {
     
@@ -116,259 +116,220 @@ String formattedDate(dateString) {
         backgroundColor: const Color(0xFF2b2a3a),
         elevation: 0,
       ),
-        body: Container(
-          margin: const EdgeInsets.only(top: 50.0),
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
+      
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                const   SizedBox(  height: 10,),
+              Container(
+                height: 220.0,
+                width: (MediaQuery.of(context).size.width - 50.0),
+                margin: const EdgeInsets.only(left: 25.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xFF2b2a3a),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10.0, 0, 20.0, 0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: SizedBox(
+                          width: 130.0,
+                          height: 200.0,
+                          child: Image.network(widget.movieData["image"],
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MovieDetails(text:  widget.movieData["title"],),
+                        MovieDetails(text:  widget.movieData["type"],),
+                        MovieDetails(text:  widget.movieData["categorie"],),
+                        MovieDetails(text:  widget.movieData["cinema"],),
+                        MovieDetails(text:   parseDate(widget.movieData["date"]),),
+                   
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: (MediaQuery.of(context).size.width - 50.0),
+                margin: const EdgeInsets.fromLTRB(25.0, 25.0, 0, 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  color: const Color(0xFF2b2a3a),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      child: const Text(
+                        "Select Your Seats",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                   SeatsContent(),
+                        SeatsContent(),
+                   
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
                 children: [
-                  Container(
-                    height: 220.0,
-                    width: (MediaQuery.of(context).size.width - 50.0),
-                    margin: const EdgeInsets.only(left: 25.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xFF2b2a3a),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.fromLTRB(10.0, 0, 20.0, 0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: SizedBox(
-                              width: 130.0,
-                              height: 200.0,
-                              child: Image.network(widget.movieData["image"],
-                                  fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Text(
-                                widget.movieData["title"],
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 18.0),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                widget.movieData["type"],
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                widget.movieData["categorie"],
-                                style: const TextStyle(color: Color(0xFFD2BE07)),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                widget.movieData["cinema"],
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                parseDate(widget.movieData["date"]),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    width: (MediaQuery.of(context).size.width - 50.0),
-                    margin: const EdgeInsets.fromLTRB(25.0, 25.0, 0, 8.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: const Color(0xFF2b2a3a),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(top: 20.0),
-                          child: const Text(
-                            "Select Your Seats",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                       SeatsContent(),
-                            SeatsContent(),
-                       
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    
-    
+                  SeatsCondition(conditionText: 'Reserved', iconColor: Colors.grey,),
+                  SeatsCondition(conditionText: 'Available', iconColor: Colors.white,),
+                  SeatsCondition(conditionText: 'Selected', iconColor: Colors.yellow,),
+                ],
+              ),
+           const    SizedBox(height: 10),
+                  Positioned(
+            bottom: 0,
+            child: Container(
+              height: 300.0,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2b2a3a),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
+                children: [
+                  Column(
                     children: [
-                      SeatsCondition(conditionText: 'Reserved', iconColor: Colors.grey,),
-                      SeatsCondition(conditionText: 'Available', iconColor: Colors.white,),
-                      SeatsCondition(conditionText: 'Selected', iconColor: Colors.yellow,),
-                     
-                     
+                    const  BookingText(),
+            
+                 PressedButton(list:   Row(
+                                children: cinemas.asMap().entries.map((entry) =>
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 15.0),
+            
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                       setState(() {
+                                            selectedCinIdx = entry.key;
+                                      
+                                       });
+                                        },
+            
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: ((selectedCinIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                          ),
+                                        ),
+            
+                                        child: Text(
+                                          entry.value["name"],
+                                          style: const TextStyle(
+                                              fontSize: 17.0
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ).toList(),
+                              ),),
+         if (selectedCinIdx == selectedTimeIdx) ... [
+              PressedButton( list:
+                              Row(
+                                children: projs.asMap().entries.map((entry) =>
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 15.0),
+            
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                       setState(() {
+                                            selectedTimeIdx = entry.key;
+                                      
+                                       });
+                                        },
+            
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: ((selectedTimeIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15.0),
+                                          ),
+                                        ),
+            
+                                        child: Text(
+                                              formattedDate(entry.value["dateProjection"]),
+                                          style: const TextStyle(
+                                              fontSize: 17.0
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ).toList(),
+                              ) ,),
+                    ] ,
+                    
                     ],
+                  ),
+            
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.only(bottom: 15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        PriceContent(text:    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] ).toString()} dt"),
+                         BookingButton(tapped:    () async {
+                    if (selectedSeats.isEmpty) return;
+            
+                    const storage = FlutterSecureStorage();
+                    String? cartData =
+            await storage.read(key: "cartData");
+            
+                    var jsonCartData = jsonDecode(cartData!);
+                    var addMovie = widget.movieData;
+                    addMovie["seats"] = selectedSeats;
+                    addMovie["price"] =
+            projs[selectedTimeIdx]["prix"];
+            
+                    jsonCartData.add(widget.movieData);
+                    //await storage.write(key: "cartData", value: jsonEncode([]));
+            
+                    storage
+            .write(
+                key: "cartData",
+                value: jsonEncode(handleCartAdd(
+                    jsonCartData, addMovie)))
+            .then((res) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const Cart()));
+                    });
+                  },),
+                      ],
+                    ),
                   ),
                 ],
               ),
-          
-
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  height: 300.0,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2b2a3a),
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-    
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    
-                    children: [
-                      Column(
-                        children: [
-                        const  BookingText(),
-    
-                     PressedButton(list:   Row(
-                                    children: cinemas.asMap().entries.map((entry) =>
-                                        Container(
-                                          margin: const EdgeInsets.only(right: 15.0),
-    
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                           setState(() {
-                                                _selectedIndex = entry.key;
-                                          
-                                           });
-                                            },
-    
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: ((_selectedIndex == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(15.0),
-                                              ),
-                                            ),
-    
-                                            child: Text(
-                                              entry.value["name"],
-                                              style: const TextStyle(
-                                                  fontSize: 17.0
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    ).toList(),
-                                  ),),
-        if( _selectedIndex == _selectedIndex ) ...[
-      PressedButton( list:
-                                  Row(
-                                    children: projs.asMap().entries.map((entry) =>
-                                        Container(
-                                          margin: const EdgeInsets.only(right: 15.0),
-    
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                           setState(() {
-                                                _selectedIndex = entry.key;
-                                          
-                                           });
-                                            },
-    
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: ((_selectedIndex == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(15.0),
-                                              ),
-                                            ),
-    
-                                            child: Text(
-                                                  formattedDate(entry.value["dateProjection"]),
-                                              style: const TextStyle(
-                                                  fontSize: 17.0
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                    ).toList(),
-                                  ) ,),
-                        ] ,
-                        
-                        ],
-                      ),
-    
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(bottom: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            PriceContent(text:    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] ).toString()} dt"),
-                             BookingButton(tapped:    () async {
-            if (selectedSeats.isEmpty) return;
-    
-            const storage = FlutterSecureStorage();
-            String? cartData =
-                await storage.read(key: "cartData");
-    
-            var jsonCartData = jsonDecode(cartData!);
-            var addMovie = widget.movieData;
-            addMovie["seats"] = selectedSeats;
-            addMovie["price"] =
-                projs[selectedTimeIdx]["prix"];
-    
-            jsonCartData.add(widget.movieData);
-            //await storage.write(key: "cartData", value: jsonEncode([]));
-    
-            storage
-                .write(
-                    key: "cartData",
-                    value: jsonEncode(handleCartAdd(
-                        jsonCartData, addMovie)))
-                .then((res) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const Cart()));
-            });
-          },),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            ),
+          ),
             ],
           ),
         ),
@@ -376,6 +337,4 @@ String formattedDate(dateString) {
     );
   }
 }
-
-
 

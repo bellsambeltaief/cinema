@@ -1,4 +1,7 @@
 import 'package:cinemamovie/views/booking/booking.dart';
+import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
+import 'package:cinemamovie/views/cart/widgets/checkout_button.dart';
+import 'package:cinemamovie/views/cart/widgets/total_price.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -56,7 +59,7 @@ class _CartState extends State<Cart> {
       body: Stack(
         children: [
           Positioned(
-            top: 100.0,
+            top: 10.0,
             width: MediaQuery.of(context).size.width,
             height: (MediaQuery.of(context).size.height - 200.0),
             child: SingleChildScrollView(
@@ -79,7 +82,7 @@ class _CartState extends State<Cart> {
                           padding: const EdgeInsets.symmetric(vertical: 15.0),
                           margin: const EdgeInsets.only(bottom: 10.0),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 2, 1, 17),
+                            color: const Color(0xFF2b2a3a),
                             borderRadius: BorderRadius.circular(15.0),
                           ),
                           child: Row(
@@ -97,90 +100,18 @@ class _CartState extends State<Cart> {
                                   ),
                                 ),
                               ),
-                              Stack(
+                              Column(
+                              
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 10.0),
-                                            child: Text(
-                                              movie["title"],
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10.0),
-                                            child: Text(
-                                              movie["type"],
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10.0),
-                                            child: Text(
-                                              movie["cinema"],
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10.0),
-                                            child: Text(
-                                              "${movie["price"].toString()} DT",
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    height: 230,
-                                    width: (MediaQuery.of(context).size.width -
-                                        225.0),
-                                    alignment: Alignment.centerRight,
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              )),
-                                          Text(
-                                            movie["seats"].length.toString(),
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                          IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.remove,
-                                                color: Colors.white,
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                    MovieDetails(text:      movie["title"],),
+                                         MovieDetails(text:      movie["type"],),
+                                           MovieDetails(text:      movie["cinema"],),
+                                         
+                                                 MovieDetails(text:      "${movie["price"].toString()} DT",),
+                                                 MovieDetails(text:   " Your place is ${movie["seats"].length.toString()} "),
+                                 
                                 ],
                               )
                             ],
@@ -192,92 +123,13 @@ class _CartState extends State<Cart> {
               ),
             ),
           ),
-          Positioned(
-            top: 30.0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 60.0,
-              alignment: Alignment.center,
-              child: const Text(
-                "My Cart",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 30.0,
-            left: 10.0,
-            child: IconButton(
-              onPressed: () {
-                //_controller.pause();
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              alignment: Alignment.center,
-              color: const Color.fromARGB(255, 2, 1, 17),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 10.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Total",
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          "${calcPrice()} dt",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 200.0,
-                    height: 40.0,
-                    margin: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          backgroundColor: const Color(0xffd3be01)),
-                      child: const Text(
-                        "Check Out",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.0),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+         
+         
+          TotalPrice(priceText: "${calcPrice()} dt",),
+      
         ],
       ),
     );
   }
 }
+

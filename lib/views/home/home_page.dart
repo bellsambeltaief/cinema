@@ -214,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              (movies.isEmpty) ?  const Text("data", style: TextStyle(color: Colors.white, fontSize: 20),) : SingleChildScrollView(
+              (movies.isEmpty) ?  const Text("Error to recover data", style: TextStyle(color: Colors.white, fontSize: 20),) : SingleChildScrollView(
                 child: Column(
                     children: movies.where((movie) => (
                           movie["title"].toLowerCase().contains(query.toLowerCase()))
