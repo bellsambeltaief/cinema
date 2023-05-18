@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:cinemamovie/views/profile/widgets/update_profile.dart';
 import 'package:cinemamovie/views/sign/sign_in.dart';
+import 'package:cinemamovie/widgets/account.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemamovie/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -102,7 +104,7 @@ void logout(BuildContext context) async {
               const Icon(Icons.person, color: Colors.white, size: 24),
               const SizedBox(width: 16),
               Text(
-                '${user.userName}',
+                user.userName,
                 style: const TextStyle(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
@@ -119,7 +121,7 @@ void logout(BuildContext context) async {
                 const Icon(Icons.email, color: Colors.white, size: 24),
                 const SizedBox(width: 16),
                 Text(
-                  '${user.email}',
+                  user.email,
                   style: const TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 18,
@@ -151,6 +153,19 @@ void logout(BuildContext context) async {
                 ],
               ),
             ),
+            const Spacer(),
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Account(onTap: () {
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(
+                      builder: (context) =>  UpdateProfile()));
+                    }, textAccount: " Update Profile", label: "You want to update your profile ? " ),
+                 ),
+              const SizedBox(height: 30),
+              
+             
           ],
         ),
       ),

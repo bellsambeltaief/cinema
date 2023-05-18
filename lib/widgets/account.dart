@@ -20,9 +20,9 @@ class Account extends StatelessWidget {
         ),
         InkWell(
           onTap: onTap,
-          child: const Text(
-            "Signin",
-            style: TextStyle(
+          child:  Text(
+            textAccount,
+            style: const TextStyle(
                 color: Color.fromARGB(255, 255, 213, 0),
                 fontWeight: FontWeight.bold),
           ),

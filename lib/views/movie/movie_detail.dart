@@ -54,7 +54,7 @@ class _MovieDetailState extends State<MovieDetail> {
           child: const  Icon(Icons.arrow_back_ios),),
           const Spacer(),
             const Text(
-              'My Cart',
+              'Movie Details',
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.bold,
@@ -205,7 +205,12 @@ class _MovieDetailState extends State<MovieDetail> {
                     color: const Color.fromARGB(255, 2, 1, 17),
                     height: 70.0,
                     width: MediaQuery.of(context).size.width,
-                    child:  BookingButton(tapped: (){},),),
+                    child:  BookingButton(tapped: (){
+                       Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  Booking()));
+                    },),),
                 ),
               ],
             ),

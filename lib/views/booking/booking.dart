@@ -17,7 +17,7 @@ class Booking extends StatefulWidget {
   final movieData;
   const Booking({
     Key? key,
-    required this.movieData,
+     this.movieData,
   }) : super(key: key);
 
   @override
@@ -293,6 +293,7 @@ String formattedDate(dateString) {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        
                         PriceContent(text:    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] ).toString()} dt"),
                          BookingButton(tapped:    () async {
                     if (selectedSeats.isEmpty) return;

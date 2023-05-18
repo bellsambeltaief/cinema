@@ -1,6 +1,6 @@
 import 'package:cinemamovie/views/sign/sign_in.dart';
 import 'package:cinemamovie/models/user.dart';
-import 'package:cinemamovie/views/sign/widgets/account.dart';
+import 'package:cinemamovie/widgets/account.dart';
 import 'package:cinemamovie/views/sign/widgets/button_sign.dart';
 import 'package:cinemamovie/views/sign/widgets/pic_detector.dart';
 import 'package:cinemamovie/widgets/app_top.dart';
@@ -25,8 +25,7 @@ class _SignUpState extends State<SignUp> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  Future checkEmailExist() async {
-  }
+
 
   final _formKey = GlobalKey<FormState>();
   Future save(String url) async {

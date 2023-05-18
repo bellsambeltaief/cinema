@@ -5,4 +5,6 @@ class User {
   String image;
   User(this.email, this.password, this.userName, this.image);
 
+  toJson() {}
+
 }
