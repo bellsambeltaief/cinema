@@ -29,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   User user = User("", "", "", "");
-  int _selectedIndex = 0;
+
   void _getUserData() async {
     final storage = const FlutterSecureStorage();
 

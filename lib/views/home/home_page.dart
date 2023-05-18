@@ -22,8 +22,7 @@ class _HomePageState extends State<HomePage> {
   String query = "";
   var categories = [];
   String selectedCategorie = "";
-    int _selectedIndex = 0;
-
+   
   void getcategories() async {
     await dotenv.load(fileName: ".env");
     var res = await get(Uri.parse("http://192.168.1.21:5000/api/categorie"));
@@ -215,9 +214,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              (movies.isEmpty) ?  Container(
-                child: Text("data", style: TextStyle(color: Colors.white, fontSize: 20),),
-              ) : SingleChildScrollView(
+              (movies.isEmpty) ?  const Text("data", style: TextStyle(color: Colors.white, fontSize: 20),) : SingleChildScrollView(
                 child: Column(
                     children: movies.where((movie) => (
                           movie["title"].toLowerCase().contains(query.toLowerCase()))

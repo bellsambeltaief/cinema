@@ -26,10 +26,6 @@ class _SignUpState extends State<SignUp> {
       firebase_storage.FirebaseStorage.instance;
 
   Future checkEmailExist() async {
-    var res = await post(
-        Uri.parse("${dotenv.env['BASE_URL']}/users/check-email"),
-        headers: {"Content-type": "application/json"},
-        body: jsonEncode({'email': user.email}));
   }
 
   final _formKey = GlobalKey<FormState>();

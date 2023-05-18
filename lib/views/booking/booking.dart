@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:cinemamovie/views/booking/widgets/back_arrow.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_button.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
 import 'package:cinemamovie/views/booking/widgets/price_content.dart';
