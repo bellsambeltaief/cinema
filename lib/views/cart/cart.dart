@@ -44,6 +44,8 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading :false,
+        
         title: const Text(
           'My Cart',
           style: TextStyle(

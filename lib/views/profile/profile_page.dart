@@ -13,25 +13,26 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  void logout() async {
-    var url = "http://192.168.1.21:5000/api/users/logout";
-    var response = await http.post(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final storage =   FlutterSecureStorage();
-      await storage.delete(key: "userData");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const SignIn()));
-    } else {
-      // erreur lors de l'appel à l'API, vous pouvez afficher un message d'erreur à l'utilisateur
-      print("Erreur lors de la déconnexion");
-    }
+
+void logout(BuildContext context) async {
+  var url = "http://192.168.1.21:5000/api/users/logout";
+  var response = await http.post(Uri.parse(url));
+
+  if (response.statusCode == 200) {
+    final storage = FlutterSecureStorage();
+    await storage.delete(key: "userData");
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const SignIn()));
+  } else {
+    // erreur lors de l'appel à l'API, vous pouvez afficher un message d'erreur à l'utilisateur
+    debugPrint("Erreur lors de la déconnexion");
   }
-
+}
   User user = User("", "", "", "");
 
   void _getUserData() async {
-    final storage = const FlutterSecureStorage();
+    final storage =  FlutterSecureStorage();
 
     String? userData = await storage.read(key: "userData");
     var jsonUser = jsonDecode(userData!);
@@ -57,16 +58,19 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading :false,
+        backgroundColor:Colors.yellow,
         title: const Text(
-          'Profile',
+          'My Profile',
           style: TextStyle(
+            color: Colors.black,
             fontFamily: 'Roboto',
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 213, 0),
+
         elevation: 0,
       ),
    
@@ -75,6 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+         
             const SizedBox(height: 32),
             Container(
               height: 120,
@@ -125,7 +130,12 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: logout,
+              onTap: 
+                 () {
+    logout(context);
+  },
+                       
+                      
               child: const Row(
                 children: <Widget>[
                   Icon(Icons.logout, color: Colors.white, size: 24),

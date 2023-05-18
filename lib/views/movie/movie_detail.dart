@@ -43,13 +43,26 @@ class _MovieDetailState extends State<MovieDetail> {
 
     return Scaffold(
         appBar: AppBar(
-        title: const Text(
-          'Movie Details',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+          automaticallyImplyLeading : false,
+        title:Row(
+       
+          children: [
+         InkWell(
+                  onTap: () {
+  Navigator.pop(context);
+},
+          child: const  Icon(Icons.arrow_back_ios),),
+          const Spacer(),
+            const Text(
+              'My Cart',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+              const Spacer(),
+          ],
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFF2b2a3a),
