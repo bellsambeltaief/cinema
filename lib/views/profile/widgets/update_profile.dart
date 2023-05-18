@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:cinemamovie/models/user.dart';
-import 'package:cinemamovie/views/sign/widgets/text_field.dart';
-import 'package:cinemamovie/widgets/account.dart';
 import 'package:cinemamovie/widgets/app_top.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,13 +7,15 @@ import 'package:http/http.dart' as http;
 
 
 class UpdateProfile extends StatefulWidget {
+  const UpdateProfile({super.key});
+
   @override
-  _UpdateProfileState createState() => _UpdateProfileState();
+  State <UpdateProfile> createState() => _UpdateProfileState();
 }
 
 class _UpdateProfileState extends State<UpdateProfile> {
   
-  final _formKey = GlobalKey<FormState>();
+ 
   User user = User('', '', '', '');
 
   @override
