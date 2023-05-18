@@ -3,7 +3,6 @@ import 'package:cinemamovie/views/home/home_page.dart';
 import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/widgets/app_top.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,8 +16,10 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+  
   Future save() async {
-    var res = await post(Uri.parse("${dotenv.env['BASE_URL']}/users/login"),
+  
+    var res = await post(Uri.parse("http://192.168.1.21:5000/api/users/login"),
         headers: {"Content-type": "application/json"},
         body: jsonEncode({'email': user.email, 'password': user.password}));
 
@@ -27,7 +28,7 @@ class _SignInState extends State<SignIn> {
       await storage.write(key: "userData", value: res.body);
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context, MaterialPageRoute(builder: (context) =>  HomePage(),),);
     }
   }
 

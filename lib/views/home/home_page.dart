@@ -1,14 +1,11 @@
 import 'dart:convert';
-
 import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/views/booking/booking.dart';
-import 'package:cinemamovie/views/cart/cart.dart';
 import 'package:cinemamovie/views/movie/movie_detail.dart';
 import 'package:cinemamovie/views/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   void getcategories() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("${dotenv.env['BASE_URL']}/categorie"));
+    var res = await get(Uri.parse("http://192.168.1.21:5000/api/categorie"));
 
     setState(() {
       categories = jsonDecode(res.body);
@@ -60,7 +57,7 @@ class _HomePageState extends State<HomePage> {
 
   void getmovies() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("${dotenv.env['BASE_URL']}/film"));
+    var res = await get(Uri.parse("http://192.168.1.21:5000/api/film"));
 
     setState(() {
       movies = jsonDecode(res.body);
@@ -87,46 +84,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context){
     return Scaffold(
       
-     bottomNavigationBar: CurvedNavigationBar(
- backgroundColor: Colors.black,
-          color: Color.fromARGB(255, 255, 213, 0),
-          buttonBackgroundColor: Color.fromARGB(255, 255, 213, 0),
-          height: 50,
-  index: _selectedIndex,
-  onTap: (index) {
-    if (index == 2) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>ProfilePage(),
-        ),
-      );
-    } else if (index == 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>HomePage(),
-        ),
-      );
-
-    } else if (index == 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Cart(),
-        ),
-      );
-
-    }
-    _selectedIndex = index;
-  },
-  items: const <Widget>[
-    Icon(Icons.home_filled, size: 30),
-    Icon(Icons.shopping_cart, size: 30),
-    Icon(Icons.account_circle_rounded, size: 30),
-  ],
-),
-
+    
 
       body: SingleChildScrollView(
         
@@ -257,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              (movies.isEmpty) ? Container(
+              (movies.isEmpty) ?  Container(
                 child: Text("data", style: TextStyle(color: Colors.white, fontSize: 20),),
               ) : SingleChildScrollView(
                 child: Column(

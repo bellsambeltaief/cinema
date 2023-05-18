@@ -1,5 +1,6 @@
-import 'package:cinemamovie/views/home/home_page.dart';
+
 import 'package:cinemamovie/views/sign/sign_in.dart';
+import 'package:cinemamovie/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -19,7 +20,7 @@ class _LogoState extends State<Logo> {
     Future.delayed(const Duration(seconds: 2), () {
       if(existingData != null) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage(),),);
+            context, MaterialPageRoute(builder: (context) => const NavBar(),),);
       }
 
       else {

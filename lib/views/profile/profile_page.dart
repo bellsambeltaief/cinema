@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:cinemamovie/views/home/home_page.dart';
 import 'package:cinemamovie/views/sign/sign_in.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:cinemamovie/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -16,12 +14,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   void logout() async {
-    var url = "http://192.168.100.57:5000/api/users/logout";
+    var url = "http://192.168.1.21:5000/api/users/logout";
     var response = await http.post(Uri.parse(url));
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
-      final storage =  FlutterSecureStorage();
+      final storage =   FlutterSecureStorage();
       await storage.delete(key: "userData");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const SignIn()));
@@ -72,36 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: const Color.fromARGB(255, 255, 213, 0),
         elevation: 0,
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.black,
-        color: const Color.fromARGB(255, 255, 213, 0),
-        buttonBackgroundColor: const Color.fromARGB(255, 255, 213, 0),
-        height: 50,
-        index: _selectedIndex,
-        onTap: (index) {
-          if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
-              ),
-            );
-          } else if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
-          }
-          _selectedIndex = index;
-        },
-        items: const <Widget>[
-          Icon(Icons.home_filled, size: 30),
-          Icon(Icons.shopping_cart, size: 30),
-          Icon(Icons.account_circle_rounded, size: 30),
-        ],
-      ),
+   
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(

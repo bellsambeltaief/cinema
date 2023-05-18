@@ -40,6 +40,19 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'My Cart',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF2b2a3a),
+        elevation: 0,
+      ),
       body: Stack(
         children: [
           Positioned(

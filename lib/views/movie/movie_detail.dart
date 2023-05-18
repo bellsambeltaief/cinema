@@ -1,5 +1,4 @@
 import 'package:cinemamovie/views/booking/booking.dart';
-import 'package:cinemamovie/functions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:video_player/video_player.dart';

@@ -24,22 +24,20 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
-  bool _emailExist = false;
+
   Future checkEmailExist() async {
     var res = await post(
         Uri.parse("${dotenv.env['BASE_URL']}/users/check-email"),
         headers: {"Content-type": "application/json"},
         body: jsonEncode({'email': user.email}));
-
-    setState(() {
-      _emailExist = jsonDecode(res.body)["emailExist"];
-    });
   }
 
   final _formKey = GlobalKey<FormState>();
   Future save(String url) async {
+    var baseURL = dotenv.env['BASE_URL']; 
+    debugPrint("$baseURL");
     var res = await post(
-      Uri.parse("${dotenv.env['BASE_URL']}/users/"),
+      Uri.parse("http://192.168.1.21:5000/api/users/"),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(
         {
