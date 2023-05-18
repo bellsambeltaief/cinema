@@ -7,7 +7,7 @@ import 'package:cinemamovie/views/booking/widgets/seats_condition.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_content.dart';
 import 'package:cinemamovie/views/cart/cart.dart';
 import 'package:cinemamovie/functions.dart';
-import 'package:cinemamovie/widgets/pressed_button.dart';
+import 'package:cinemamovie/views/booking/widgets/pressed_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
