@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> {
     var baseURL = dotenv.env['BASE_URL']; 
     debugPrint("$baseURL");
     var res = await post(
-      Uri.parse("http://192.168.1.21:5000/api/users/"),
+      Uri.parse("http://192.168.100.57:5000/api/users/"),
       headers: {"Content-type": "application/json"},
       body: jsonEncode(
         {

@@ -209,7 +209,7 @@ class _MovieDetailState extends State<MovieDetail> {
                        Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>  Booking()));
+                    builder: (context) =>  const Booking(),),);
                     },),),
                 ),
               ],

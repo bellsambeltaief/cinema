@@ -3,6 +3,7 @@ import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/views/booking/booking.dart';
 import 'package:cinemamovie/views/movie/movie_detail.dart';
 import 'package:cinemamovie/views/profile/profile_page.dart';
+import 'package:cinemamovie/views/movie_category/movie_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
@@ -25,7 +26,7 @@ class _HomePageState extends State<HomePage> {
    
   void getcategories() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("http://192.168.1.21:5000/api/categorie"));
+    var res = await get(Uri.parse("http://192.168.100.57:5000/api/categorie"));
 
     setState(() {
       categories = jsonDecode(res.body);
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
 
   void getmovies() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("http://192.168.1.21:5000/api/film"));
+    var res = await get(Uri.parse("http://192.168.100.57:5000/api/film/"));
 
     setState(() {
       movies = jsonDecode(res.body);
@@ -90,27 +91,31 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
+               
+                
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    child: Row(
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   children: [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:[
         Text(
-          "Hello ${user.userName}",
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 28,
-            fontWeight: FontWeight.w500
-          ),
+              "Hello ${user.userName}",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.w500
+              ),
         ),
         const Text(
-          "What are you watching today ?",
-          style: TextStyle(
-            color: Colors.white54,
-          ),
+              "What are you watching today ?",
+              style: TextStyle(
+                color: Colors.white54,
+              ),
         )
       ],
     ),
@@ -120,7 +125,7 @@ class _HomePageState extends State<HomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfilePage(),
+              builder: (context) => const ProfilePage(),
         ),);
     },
       child: (user.image == "") ? Container() : CircleAvatar(
@@ -131,202 +136,178 @@ class _HomePageState extends State<HomePage> {
   ],
 ),
 
-                ),
-                Container(
-                
-                  padding: const EdgeInsets.all(7.5),
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF292B37),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Row(
-                    children: [
+                    ),
                     Container(
-                      margin: const EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
-                      child: const Icon(
-                        Icons.search,
-                        color: Colors.white,
+                    
+                      padding: const EdgeInsets.all(7.5),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF292B37),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                    ),
-                    SizedBox(
-                      width: 300,
-
-                      child: TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            query = value;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Type in a movie name',
-                          hintStyle: TextStyle(color: Colors.white),
-                        ),
-
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ]),
-                ),
-
-              Container(
-                margin: const EdgeInsets.only(top: 15.0),
-                height: 40.0,
-                width: MediaQuery.of(context).size.width,
-
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        height: 40.0,
-                        width: 25.0,
-                      ),
-
-                      Row(
-                        children: categories.map((categorie) =>
-                            Container(
-                              margin: const EdgeInsets.only(right: 10.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    selectedCategorie = categorie["name"];
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: ((selectedCategorie == categorie["name"]) ? Color.fromARGB(255, 255, 213, 0) : const Color(0xFF292B37)),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0),
-                                  ),
-                                ),
-
-                                child: Text(
-                                  capitalize(categorie["name"]),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            )
-                        ).toList(),
-                      )
-                    ]
-                  ),
-                ),
-              ),
-
-              (movies.isEmpty) ?  const Text("Error to recover data", style: TextStyle(color: Colors.white, fontSize: 20),) : SingleChildScrollView(
-                child: Column(
-                    children: movies.where((movie) => (
-                          movie["title"].toLowerCase().contains(query.toLowerCase()))
-                        )
-                        .map((movie) =>
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => MovieDetail(movieData: movie)));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: const Color.fromARGB(255,2,1,17),
-                              ),
-
-                              height: 230.0,
-                              padding: const EdgeInsets.symmetric(vertical: 15.0),
-                              width: MediaQuery.of(context).size.width - 25.0,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 15.0),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: SizedBox(
-                                        width: 130.0,
-                                        height: 200.0,
-                                        child: Image.network(movie["image"], fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                  ),
-
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            margin: const EdgeInsets.symmetric(vertical: 10.0),
-                                            child: Text(
-                                              movie["title"],
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18.0
-                                              ),
-                                            ),
-                                          ),
-
-                                          Container(
-                                            margin: const EdgeInsets.only(bottom: 10.0),
-                                            child: Text(
-                                              movie["type"],
-                                              style: const TextStyle(
-                                                  color: Colors.white
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                      Container(
-                                        height: 35.0,
-                                        margin: const EdgeInsets.only(bottom: 5.0),
-
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10.0),
-
-                                          gradient: const LinearGradient(
-                                            begin: Alignment.topRight,
-                                            end: Alignment.bottomLeft,
-                                            colors: [Color(0xfff64c18), Color(0xffff8a1b)],
-                                            stops: [0.0, 1.0],
-                                          ),
-                                        ),
-
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context, MaterialPageRoute(builder: (context) => Booking(movieData: movie)));
-                                            
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10.0),
-                                            ),
-
-                                            primary: Colors.transparent,
-                                            onSurface: Colors.transparent,
-                                            shadowColor: Colors.transparent,
-                                          ),
-
-                                          child: const Text("Book A Ticket"),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                    ),
+                      child: Row(
+                        children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(5.0, 0.0, 10.0, 0.0),
+                          child: const Icon(
+                            Icons.search,
+                            color: Colors.white,
                           ),
-                        )).toList(),
-                ),
-              )
+                        ),
+                        SizedBox(
+                          width: 300,
+
+                          child: TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                query = value;
+                              });
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Type in a movie name',
+                              hintStyle: TextStyle(color: Colors.white),
+                            ),
+
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                      ),
+                    ),
+                
+         
+                ],),
+                  Container(
+                       margin: const EdgeInsets.only(top: 15.0),
+                       padding: const EdgeInsets.symmetric(horizontal: 15),
+    
+                child: const MovieApp(),),
             ],
           ),
-          ),
-              ),
-    );
+            ),
+            ),
+            );
+          
+      
+      
+    
   }
 }
+
+
+
+  // (movies.isEmpty) ?  const Text("Error to recover data", style: TextStyle(color: Colors.white, fontSize: 20),) : SingleChildScrollView(
+  //               child: Column(
+  //                   children: movies.where((movie) => (
+  //                         movie["title"].toLowerCase().contains(query.toLowerCase()))
+  //                       )
+  //                       .map((movie) =>
+  //                       Padding(
+  //                         padding: const EdgeInsets.only(top: 15.0),
+  //                         child: GestureDetector(
+  //                           onTap: () {
+  //                             Navigator.push(
+  //                                 context, MaterialPageRoute(builder: (context) => MovieDetail(movieData: movie)));
+  //                           },
+  //                           child: Container(
+  //                             decoration: BoxDecoration(
+  //                               borderRadius: BorderRadius.circular(15.0),
+  //                               color: const Color.fromARGB(255,2,1,17),
+  //                             ),
+
+  //                             height: 230.0,
+  //                             padding: const EdgeInsets.symmetric(vertical: 15.0),
+  //                             width: MediaQuery.of(context).size.width - 25.0,
+  //                             child: Row(
+  //                               children: [
+  //                                 Container(
+  //                                   margin: const EdgeInsets.symmetric(horizontal: 15.0),
+  //                                   child: ClipRRect(
+  //                                     borderRadius: BorderRadius.circular(10.0),
+  //                                     child: SizedBox(
+  //                                       width: 130.0,
+  //                                       height: 200.0,
+  //                                       child: Image.network(movie["image"], fit: BoxFit.cover),
+  //                                     ),
+  //                                   ),
+  //                                 ),
+
+  //                                 Column(
+  //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                                   children: [
+  //                                     Column(
+  //                                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                                       children: [
+  //                                         Container(
+  //                                           margin: const EdgeInsets.symmetric(vertical: 10.0),
+  //                                           child: Text(
+  //                                             movie["title"],
+  //                                             style: const TextStyle(
+  //                                                 color: Colors.white,
+  //                                                 fontSize: 18.0
+  //                                             ),
+  //                                           ),
+  //                                         ),
+
+  //                                         Container(
+  //                                           margin: const EdgeInsets.only(bottom: 10.0),
+  //                                           child: Text(
+  //                                             movie["type"],
+  //                                             style: const TextStyle(
+  //                                                 color: Colors.white
+  //                                             ),
+  //                                           ),
+  //                                         ),
+  //                                       ],
+  //                                     ),
+
+  //                                     Container(
+  //                                       height: 35.0,
+  //                                       margin: const EdgeInsets.only(bottom: 5.0),
+
+  //                                       decoration: BoxDecoration(
+  //                                         borderRadius: BorderRadius.circular(10.0),
+
+  //                                         gradient: const LinearGradient(
+  //                                           begin: Alignment.topRight,
+  //                                           end: Alignment.bottomLeft,
+  //                                           colors: [Color(0xfff64c18), Color(0xffff8a1b)],
+  //                                           stops: [0.0, 1.0],
+  //                                         ),
+  //                                       ),
+
+  //                                       child: ElevatedButton(
+  //                                         onPressed: () {
+  //                                           Navigator.push(
+  //                                               context, MaterialPageRoute(builder: (context) => Booking(movieData: movie)));
+                                            
+  //                                         },
+  //                                         style: ElevatedButton.styleFrom(
+  //                                           shape: RoundedRectangleBorder(
+  //                                             borderRadius: BorderRadius.circular(10.0),
+  //                                           ),
+
+  //                                           primary: Colors.transparent,
+  //                                           onSurface: Colors.transparent,
+  //                                           shadowColor: Colors.transparent,
+  //                                         ),
+
+  //                                         child: const Text("Book A Ticket"),
+  //                                       ),
+  //                                     ),
+  //                                   ],
+  //                                 )
+  //                               ],
+  //                             ),
+  //                   ),
+  //                         ),
+  //                       )).toList(),
+  //               ),
+  //             )
+  //           ],
+  //         ),
+            
+  //               ),
+       
