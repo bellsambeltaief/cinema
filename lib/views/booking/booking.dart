@@ -42,7 +42,7 @@ String formattedDate(dateString) {
   void getPrice() async {
     await dotenv.load(fileName: ".env");
     
-    var res = await get(Uri.parse("http://192.168.1.21:5000/api/projections/getProjection"));
+    var res = await get(Uri.parse("http://192.168.100.57:5000/api/projections/getProjectionById"));
     debugPrint(res.body);
 
     setState(() {
