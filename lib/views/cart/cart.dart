@@ -64,45 +64,45 @@ class _CartState extends State<Cart> {
             top: 10.0,
             width: MediaQuery.of(context).size.width,
             height: (MediaQuery.of(context).size.height - 200.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: cartMovies
-                    .map(
-                      (movie) => GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Booking(movieData: movie)));
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: (MediaQuery.of(context).size.width - 50.0),
-                          height: 230.0,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          margin: const EdgeInsets.only(bottom: 10.0),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF2b2a3a),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 15.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: SizedBox(
-                                    width: 130.0,
-                                    height: 200.0,
-                                    child: Image.network(movie["image"],
-                                        fit: BoxFit.cover),
-                                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: cartMovies
+                  .map(
+                    (movie) => GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Booking(movieData: movie)));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: (MediaQuery.of(context).size.width - 50.0),
+                        height: 230.0,
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        margin: const EdgeInsets.only(bottom: 10.0),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF2b2a3a),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 15.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: SizedBox(
+                                  width: 130.0,
+                                  height: 200.0,
+                                  child: Image.network(movie["image"],
+                                      fit: BoxFit.cover),
                                 ),
                               ),
-                              Column(
+                            ),
+                            SingleChildScrollView(
+                              child: Column(
                               
                                 crossAxisAlignment:
                                     CrossAxisAlignment.start,
@@ -115,14 +115,14 @@ class _CartState extends State<Cart> {
                                                  MovieDetails(text:   " Your place is ${movie["seats"].length.toString()} "),
                                  
                                 ],
-                              )
-                            ],
-                          ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
          
