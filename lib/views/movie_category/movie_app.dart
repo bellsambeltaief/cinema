@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-
-
   static Future<List<Category>> getCategories() async {
     final response = await http.get(Uri.parse('http://192.168.100.57:5000/api/categorie'));
     if (response.statusCode == 200) {
@@ -57,11 +55,13 @@ class _MovieAppState extends State<MovieApp> {
                     child: ListView(
                     scrollDirection: Axis.horizontal,
                       children: categories
-                          .map((category) => CategoryButton(
-                                category: category.name,
-                                 onPressed: () => _onCategoryPressed(category.id ?? ""),
-                              ))
-                          .toList(),
+                        .map((category) => CategoryButton(
+                              category: category.name,
+                              onPressed: () => _onCategoryPressed(category.id),
+                              isSelected:
+                                  category.id == _selectedCategory, // Set isSelected to true if the button corresponds to the selected category
+                            ))
+                        .toList(),
                     ),
                   );
                 } else if (snapshot.hasError) {
@@ -74,18 +74,9 @@ class _MovieAppState extends State<MovieApp> {
            const SizedBox(height: 40),
             Container(child:
               _selectedCategory.isEmpty?
-             const Text("No movies data" , style: TextStyle(color: Colors.white, fontSize: 30,),):
+             const Text("No movies data\n No movies data \nNo movies data\nNo movies data\n No movies data" , style: TextStyle(color: Colors.white, fontSize: 30,),):
                MovieList(category: _selectedCategory),
               ),
-           
-           
-               
-            
-                   
-            
-           
-          
-        
           ],
       ),
     );

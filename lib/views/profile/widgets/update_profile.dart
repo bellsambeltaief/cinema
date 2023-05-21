@@ -25,7 +25,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   }
 
   Future<void> loadUser() async {
-    final storage = const FlutterSecureStorage();
+    final storage =  FlutterSecureStorage();
     final userData = await storage.read(key: "userData");
     if (userData != null) {
       setState(() {
@@ -37,7 +37,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
  Future<void> updateProfile(BuildContext context, User user) async {
   final formKey = GlobalKey<FormState>();
   if (formKey.currentState!.validate()) {
-    final storage = const FlutterSecureStorage();
+    final storage =  FlutterSecureStorage();
     final token = await storage.read(key: "token");
     final headers = {"Authorization": "Bearer $token"};
     final userData = await storage.read(key: "userData");
@@ -88,7 +88,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   onTap: () {
   Navigator.pop(context);
 },
-          child: const  Icon(Icons.arrow_back_ios),),
+          child: const  Icon(Icons.arrow_back_ios),
+          ),
           const Spacer(),
            
           
@@ -105,7 +106,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
             crossAxisAlignment: CrossAxisAlignment.center,
             
             children: [
-            const AppTop(logoImage: 'images/logo.png', label: "UpdateProfile",),
+            const AppTop(logoImage: 'images/logo.png', 
+            label: "UpdateProfile",
+            ),
                   const SizedBox(height: 50),
               TextFormField(
                       style:const TextStyle(color: Colors.white),
@@ -122,19 +125,29 @@ class _UpdateProfileState extends State<UpdateProfile> {
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
+                      ),
+                     
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your name';
@@ -175,19 +188,28 @@ class _UpdateProfileState extends State<UpdateProfile> {
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
+                      ),
           ),
             
             const SizedBox(height: 20),
@@ -201,7 +223,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                       _obscured
                           ? Icons.visibility_off_rounded
                           : Icons.visibility_rounded,
-                          color: Color.fromARGB(255, 255, 213, 0),
+                          color: const Color.fromARGB(255, 255, 213, 0),
                       size: 24,
                     ),
                   ),
@@ -215,19 +237,28 @@ class _UpdateProfileState extends State<UpdateProfile> {
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               errorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
               focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(16),
                   borderSide: const BorderSide(
-                      color: Color.fromARGB(255, 255, 213, 0),),),),
+                      color: Color.fromARGB(255, 255, 213, 0),
+                      ),
+                      ),
+                      ),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter your New Password';
@@ -246,7 +277,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                  debugPrint  (' ${updateProfile}');
+                  debugPrint  (' $updateProfile');
                     
                   },
                   
@@ -254,20 +285,26 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   foregroundColor:
                                       MaterialStateProperty.all(Colors.white),
                                   backgroundColor: MaterialStateProperty.all(
-                                      const Color.fromARGB(255, 246, 189, 0)),
+                                      const Color.fromARGB(255, 246, 189, 0),
+                                      ),
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(16.0),
                                           side: const BorderSide(
-                                              color: Color.fromRGBO(255, 213, 0, 1),),),),),
+                                              color: Color.fromRGBO(255, 213, 0, 1),
+                                              ),
+                                              ),
+                                              ),
+                                              ),
                   child: const Text('Update Profile'),
                 ),
               ),
-             
-          ]),
+          ],
+          ),
         ),
-      ));
+      ),
+      );
   }
 }

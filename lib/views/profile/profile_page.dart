@@ -72,16 +72,16 @@ void logout(BuildContext context) async {
           ),
         ),
         centerTitle: true,
-
         elevation: 0,
       ),
    
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 24, 
+        vertical: 32,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-         
             const SizedBox(height: 32),
             Container(
               height: 120,
@@ -89,19 +89,26 @@ void logout(BuildContext context) async {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    color: const Color.fromARGB(255, 255, 213, 0), width: 2),
+                    color: const Color.fromARGB(255, 255, 213, 0), 
+                    width: 2),
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(user.image),
                 ),
               ),
               child: (user.image == "")
-                  ? const Icon(Icons.person, color: Colors.white, size: 48)
+                  ? const Icon(Icons.person,
+                   color: Colors.white, 
+                  size: 48,
+                  )
                   : null,
             ),
             const SizedBox(height: 32),
             Row(children: <Widget>[
-              const Icon(Icons.person, color: Colors.white, size: 24),
+              const Icon(Icons.person, 
+              color: Colors.white,
+               size: 24,
+                ),
               const SizedBox(width: 16),
               Text(
                 user.userName,
@@ -111,14 +118,19 @@ void logout(BuildContext context) async {
                   fontSize: 24,
                   color: Color.fromARGB(255, 255, 213, 0),
                 ),
-              )
-            ]),
+              ),
+            ],
+            ),
             const SizedBox(height: 16),
-            const Divider(height: 32, color: Color.fromARGB(255, 255, 213, 0)),
+            const Divider(height: 32,
+             color: Color.fromARGB(255, 255, 213, 0),
+             ),
             const SizedBox(height: 16),
             Row(
               children: <Widget>[
-                const Icon(Icons.email, color: Colors.white, size: 24),
+                const Icon(Icons.email, 
+                color: Colors.white, size: 24,
+                ),
                 const SizedBox(width: 16),
                 Text(
                   user.email,
@@ -160,8 +172,12 @@ void logout(BuildContext context) async {
                                Navigator.push(
                                  context,
                                  MaterialPageRoute(
-                      builder: (context) =>  UpdateProfile()));
-                    }, textAccount: " Update Profile", label: "You want to update your profile ? " ),
+                      builder: (context) => const  UpdateProfile(),
+                      ),
+                      );
+                    }, textAccount: " Update Profile", 
+                    label: "You want to update your profile ? " ,
+                    ),
                  ),
               const SizedBox(height: 30),
               
