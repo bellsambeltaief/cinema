@@ -68,11 +68,11 @@ class _CartState extends State<Cart> {
                   .map(
                     (movie) => GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Booking(movieData: movie)));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             Booking(movieData: movie)));
                       },
                       child: Container(
                         alignment: Alignment.center,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class BookingButton extends StatelessWidget {
+
+  final VoidCallback onPressed;
   const BookingButton({
     super.key,
-    required this.tapped,
+   required this.onPressed,
   });
-  final void Function() tapped;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +24,7 @@ class BookingButton extends StatelessWidget {
         ),
       ),
       child: ElevatedButton(
-        onPressed: tapped,
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

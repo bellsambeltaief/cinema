@@ -12,7 +12,10 @@ class ApiService {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Category>.from(
-          jsonData.map((category) => Category.fromJson(category)));
+        jsonData.map(
+          (category) => Category.fromJson(category),
+        ),
+      );
     } else {
       throw Exception('Failed to load categories');
     }
@@ -52,7 +55,7 @@ class _MovieAppState extends State<MovieApp> {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 final List<Category> categories = snapshot.data!;
-                print(snapshot.data!.map((e) => e.id).toList());
+                // print(snapshot.data!.map((e) => e.id).toList());
                 return SizedBox(
                   height: 50,
                   child: ListView(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cinemamovie/models/movie.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_button.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
 import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
@@ -8,6 +9,7 @@ import 'package:cinemamovie/views/booking/widgets/seats_content.dart';
 import 'package:cinemamovie/views/cart/cart.dart';
 import 'package:cinemamovie/functions.dart';
 import 'package:cinemamovie/views/booking/widgets/pressed_button.dart';
+import 'package:cinemamovie/views/movie_category/widgets/movie_selected_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -15,9 +17,11 @@ import 'package:http/http.dart';
 
 class Booking extends StatefulWidget {
   final movieData;
+  final Movie movie;
   const Booking({
     Key? key,
     this.movieData,
+    required this.movie,
   }) : super(key: key);
 
   @override
@@ -39,21 +43,21 @@ class _BookingState extends State<Booking> {
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
   }
 
-  void getPrice() async {
-    await dotenv.load(fileName: ".env");
+  // void getPrice() async {
+  //   await dotenv.load(fileName: ".env");
 
-    var res = await get(Uri.parse(
-        "http://192.168.1.21:5000/api/projections/getProjectionById"));
-    debugPrint(res.body);
+  //   var res = await get(Uri.parse(
+  //       "http://192.168.100.57:5000/api/projections/"));
+  //   debugPrint(res.body);
 
-    setState(() {
-      projs = jsonDecode(res.body);
-    });
-  }
+  //   setState(() {
+  //     projs = jsonDecode(res.body);
+  //   });
+  // }
 
   void getCinemas() async {
     await dotenv.load(fileName: ".env");
-    var res = await get(Uri.parse("http://192.168.1.21:5000/api/cinema"));
+    var res = await get(Uri.parse("http://192.168.100.57:5000/api/cinema"));
 
     setState(() {
       cinemas = jsonDecode(res.body);
@@ -91,8 +95,8 @@ class _BookingState extends State<Booking> {
 
   @override
   void initState() {
-    getStorageMovie();
-    getPrice();
+    // getStorageMovie();
+    // getPrice();
     getCinemas();
     super.initState();
   }
@@ -121,49 +125,55 @@ class _BookingState extends State<Booking> {
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                height: 220.0,
-                width: (MediaQuery.of(context).size.width - 50.0),
-                margin: const EdgeInsets.only(left: 25.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(0xFF2b2a3a),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(10.0, 0, 20.0, 0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: SizedBox(
-                          width: 130.0,
-                          height: 200.0,
-                          child: Image.network(widget.movieData["image"],
-                              fit: BoxFit.cover),
-                        ),
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: (MediaQuery.of(context).size.width - 50.0),
+                  height: 230.0,
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2b2a3a),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Image.asset(
+                      //   movie.image,
+                      //   height: 60,
+                      //   width: 60,
+                      // ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.movie.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            widget.movie.category,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            ('${widget.movie.age}'),
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            widget.movie.type,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
                       ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        MovieDetails(
-                          text: widget.movieData["title"],
-                        ),
-                        MovieDetails(
-                          text: widget.movieData["type"],
-                        ),
-                        MovieDetails(
-                          text: widget.movieData["categorie"],
-                        ),
-                        MovieDetails(
-                          text: widget.movieData["cinema"],
-                        ),
-                        MovieDetails(
-                          text: parseDate(widget.movieData["date"]),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -319,7 +329,7 @@ class _BookingState extends State<Booking> {
                                 text:
                                     "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
                             BookingButton(
-                              tapped: () async {
+                              onPressed: () async {
                                 if (selectedSeats.isEmpty) return;
 
                                 const storage = FlutterSecureStorage();

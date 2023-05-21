@@ -2,8 +2,8 @@ class Movie {
   final String id;
   final String title;
   final String category;
-  final String description;
-  final String partner;
+  final String? description;
+  final String? partner;
   final int age;
   final String type;
   final String image;
@@ -15,8 +15,8 @@ class Movie {
     required this.title,
     required this.category,
     required this.id,
-    required this.description,
-    required this.partner,
+     this.description,
+     this.partner,
     required this.age,
     required this.type,
     required this.image,
@@ -29,7 +29,7 @@ class Movie {
     return Movie(
       title: json['title'].toString(),
       id: json['id'].toString(),
-      category: json['category'].toString(),
+      category: json['categorie'].toString(),
       age: json['age'],
       type: json['type'].toString(),
       description: json['description'].toString(),
