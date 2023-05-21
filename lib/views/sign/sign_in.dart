@@ -17,10 +17,10 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
-  
+
   Future save() async {
-  
-    var res = await post(Uri.parse("http://192.168.100.57:5000/api/users/login"),
+    var res = await post(
+        Uri.parse("http://192.168.100.57:5000/api/users/login"),
         headers: {"Content-type": "application/json"},
         body: jsonEncode({'email': user.email, 'password': user.password}));
 
@@ -29,7 +29,11 @@ class _SignInState extends State<SignIn> {
       await storage.write(key: "userData", value: res.body);
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) =>  HomePage(),),);
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
     }
   }
 
@@ -46,10 +50,11 @@ class _SignInState extends State<SignIn> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 90
+              const SizedBox(height: 90),
+              const AppTop(
+                logoImage: 'images/logo.png',
+                label: "SignIn",
               ),
-            const AppTop(logoImage: 'images/logo.png', label: "SignIn",),
               const SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -74,8 +79,8 @@ class _SignInState extends State<SignIn> {
                       prefixIcon: const Icon(Icons.email,
                           color: Color.fromARGB(255, 255, 213, 0)),
                       hintText: 'Enter Email',
-                      hintStyle: const TextStyle(
-                          fontSize: 20.0, color: Colors.white),
+                      hintStyle:
+                          const TextStyle(fontSize: 20.0, color: Colors.white),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: const BorderSide(
@@ -115,8 +120,8 @@ class _SignInState extends State<SignIn> {
                         color: Color.fromARGB(255, 255, 213, 0),
                       ),
                       hintText: 'Enter Password',
-                      hintStyle: const TextStyle(
-                          fontSize: 20.0, color: Colors.white),
+                      hintStyle:
+                          const TextStyle(fontSize: 20.0, color: Colors.white),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16),
                           borderSide: const BorderSide(
@@ -141,34 +146,44 @@ class _SignInState extends State<SignIn> {
                   height: 50,
                   width: 400,
                   child: ElevatedButton(
-                      style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 246, 189, 0)),
-                          shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  side: const BorderSide(
-                                      color: Colors.yellow,),),),),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          save();
-                        } else {
-                          debugPrint("not ok");
-                        }
-                      },
-                      child: const Text(
-                        "SignIn",
-                        style: TextStyle(color: Colors.black, fontSize: 20,),
-                      ),),
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromARGB(255, 246, 189, 0)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(
+                            color: Colors.yellow,
+                          ),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        save();
+                      } else {
+                        debugPrint("not ok");
+                      }
+                    },
+                    child: const Text(
+                      "SignIn",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              Account(onTap: () {  Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SignUp())); }, label: 'You dont have an account ?', textAccount: 'SignUp', ),
+              Account(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SignUp()));
+                },
+                label: 'You dont have an account ?',
+                textAccount: 'SignUp',
+              ),
             ],
           ),
         )
@@ -176,4 +191,3 @@ class _SignInState extends State<SignIn> {
     )));
   }
 }
-

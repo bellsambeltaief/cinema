@@ -17,7 +17,7 @@ class Booking extends StatefulWidget {
   final movieData;
   const Booking({
     Key? key,
-     this.movieData,
+    this.movieData,
   }) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class _BookingState extends State<Booking> {
 
   int selectedCinIdx = 0;
   int selectedTimeIdx = 0;
-String formattedDate(dateString) {
+  String formattedDate(dateString) {
     DateTime parsedDate = DateTime.parse(dateString);
 
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
@@ -41,8 +41,9 @@ String formattedDate(dateString) {
 
   void getPrice() async {
     await dotenv.load(fileName: ".env");
-    
-    var res = await get(Uri.parse("http://192.168.1.21:5000/api/projections/getProjectionById"));
+
+    var res = await get(Uri.parse(
+        "http://192.168.1.21:5000/api/projections/getProjectionById"));
     debugPrint(res.body);
 
     setState(() {
@@ -52,8 +53,7 @@ String formattedDate(dateString) {
 
   void getCinemas() async {
     await dotenv.load(fileName: ".env");
-    var res =
-        await get(Uri.parse("http://192.168.1.21:5000/api/cinema"));
+    var res = await get(Uri.parse("http://192.168.1.21:5000/api/cinema"));
 
     setState(() {
       cinemas = jsonDecode(res.body);
@@ -95,33 +95,32 @@ String formattedDate(dateString) {
     getPrice();
     getCinemas();
     super.initState();
-  
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
-         appBar: AppBar(
-        title: const Text(
-          'Booking',
-          style: TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+        appBar: AppBar(
+          title: const Text(
+            'Booking',
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
           ),
+          centerTitle: true,
+          backgroundColor: const Color(0xFF2b2a3a),
+          elevation: 0,
         ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF2b2a3a),
-        elevation: 0,
-      ),
-      
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                const   SizedBox(  height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Container(
                 height: 220.0,
                 width: (MediaQuery.of(context).size.width - 50.0),
@@ -147,12 +146,21 @@ String formattedDate(dateString) {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MovieDetails(text:  widget.movieData["title"],),
-                        MovieDetails(text:  widget.movieData["type"],),
-                        MovieDetails(text:  widget.movieData["categorie"],),
-                        MovieDetails(text:  widget.movieData["cinema"],),
-                        MovieDetails(text:   parseDate(widget.movieData["date"]),),
-                   
+                        MovieDetails(
+                          text: widget.movieData["title"],
+                        ),
+                        MovieDetails(
+                          text: widget.movieData["type"],
+                        ),
+                        MovieDetails(
+                          text: widget.movieData["categorie"],
+                        ),
+                        MovieDetails(
+                          text: widget.movieData["cinema"],
+                        ),
+                        MovieDetails(
+                          text: parseDate(widget.movieData["date"]),
+                        ),
                       ],
                     ),
                   ],
@@ -183,9 +191,8 @@ String formattedDate(dateString) {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                   SeatsContent(),
                         SeatsContent(),
-                   
+                        SeatsContent(),
                       ],
                     ),
                   ],
@@ -193,144 +200,161 @@ String formattedDate(dateString) {
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
                 children: [
-                  SeatsCondition(conditionText: 'Reserved', iconColor: Colors.grey,),
-                  SeatsCondition(conditionText: 'Available', iconColor: Colors.white,),
-                  SeatsCondition(conditionText: 'Selected', iconColor: Colors.yellow,),
+                  SeatsCondition(
+                    conditionText: 'Reserved',
+                    iconColor: Colors.grey,
+                  ),
+                  SeatsCondition(
+                    conditionText: 'Available',
+                    iconColor: Colors.white,
+                  ),
+                  SeatsCondition(
+                    conditionText: 'Selected',
+                    iconColor: Colors.yellow,
+                  ),
                 ],
               ),
-           const    SizedBox(height: 10),
-                  Positioned(
-            bottom: 0,
-            child: Container(
-              height: 300.0,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: const Color(0xFF2b2a3a),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-            
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            
-                children: [
-                  Column(
+              const SizedBox(height: 10),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 300.0,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2b2a3a),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    const  BookingText(),
-            
-                 PressedButton(list:   Row(
-                                children: cinemas.asMap().entries.map((entry) =>
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 15.0),
-            
+                      Column(
+                        children: [
+                          const BookingText(),
+                          PressedButton(
+                            list: Row(
+                              children: cinemas
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (entry) => Container(
+                                      margin:
+                                          const EdgeInsets.only(right: 15.0),
                                       child: ElevatedButton(
                                         onPressed: () {
-                                       setState(() {
+                                          setState(() {
                                             selectedCinIdx = entry.key;
-                                      
-                                       });
+                                          });
                                         },
-            
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: ((selectedCinIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
+                                          backgroundColor:
+                                              ((selectedCinIdx == entry.key)
+                                                  ? const Color(0xFFD2BE07)
+                                                  : const Color(0xFF939194)),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0),
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
                                           ),
                                         ),
-            
                                         child: Text(
                                           entry.value["name"],
-                                          style: const TextStyle(
-                                              fontSize: 17.0
-                                          ),
+                                          style:
+                                              const TextStyle(fontSize: 17.0),
                                         ),
                                       ),
                                     ),
-                                ).toList(),
-                              ),),
-         if (selectedCinIdx == selectedTimeIdx) ... [
-              PressedButton( list:
-                              Row(
-                                children: projs.asMap().entries.map((entry) =>
-                                    Container(
-                                      margin: const EdgeInsets.only(right: 15.0),
-            
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                       setState(() {
-                                            selectedTimeIdx = entry.key;
-                                      
-                                       });
-                                        },
-            
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: ((selectedTimeIdx == entry.key) ? const Color(0xFFD2BE07) : const Color(0xFF939194)),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15.0),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                          if (selectedCinIdx == selectedTimeIdx) ...[
+                            PressedButton(
+                              list: Row(
+                                children: projs
+                                    .asMap()
+                                    .entries
+                                    .map(
+                                      (entry) => Container(
+                                        margin:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              selectedTimeIdx = entry.key;
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                ((selectedTimeIdx == entry.key)
+                                                    ? const Color(0xFFD2BE07)
+                                                    : const Color(0xFF939194)),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                            ),
                                           ),
-                                        ),
-            
-                                        child: Text(
-                                              formattedDate(entry.value["dateProjection"]),
-                                          style: const TextStyle(
-                                              fontSize: 17.0
+                                          child: Text(
+                                            formattedDate(
+                                                entry.value["dateProjection"]),
+                                            style:
+                                                const TextStyle(fontSize: 17.0),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                ).toList(),
-                              ) ,),
-                    ] ,
-                    
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.only(bottom: 15.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            PriceContent(
+                                text:
+                                    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
+                            BookingButton(
+                              tapped: () async {
+                                if (selectedSeats.isEmpty) return;
+
+                                const storage = FlutterSecureStorage();
+                                String? cartData =
+                                    await storage.read(key: "cartData");
+
+                                var jsonCartData = jsonDecode(cartData!);
+                                var addMovie = widget.movieData;
+                                addMovie["seats"] = selectedSeats;
+                                addMovie["price"] =
+                                    projs[selectedTimeIdx]["prix"];
+
+                                jsonCartData.add(widget.movieData);
+                                //await storage.write(key: "cartData", value: jsonEncode([]));
+
+                                storage
+                                    .write(
+                                        key: "cartData",
+                                        value: jsonEncode(handleCartAdd(
+                                            jsonCartData, addMovie)))
+                                    .then((res) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Cart()));
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-            
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.only(bottom: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        
-                        PriceContent(text:    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"] ).toString()} dt"),
-                         BookingButton(tapped:    () async {
-                    if (selectedSeats.isEmpty) return;
-            
-                    const storage = FlutterSecureStorage();
-                    String? cartData =
-            await storage.read(key: "cartData");
-            
-                    var jsonCartData = jsonDecode(cartData!);
-                    var addMovie = widget.movieData;
-                    addMovie["seats"] = selectedSeats;
-                    addMovie["price"] =
-            projs[selectedTimeIdx]["prix"];
-            
-                    jsonCartData.add(widget.movieData);
-                    //await storage.write(key: "cartData", value: jsonEncode([]));
-            
-                    storage
-            .write(
-                key: "cartData",
-                value: jsonEncode(handleCartAdd(
-                    jsonCartData, addMovie)))
-            .then((res) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      const Cart()));
-                    });
-                  },),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
             ],
           ),
         ),
@@ -338,4 +362,3 @@ String formattedDate(dateString) {
     );
   }
 }
-

@@ -24,8 +24,6 @@ class _BannerState extends State<Banner> {
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
-                    
-
           CarouselSlider.builder(
             itemCount: banners.length,
             options: CarouselOptions(
@@ -38,7 +36,6 @@ class _BannerState extends State<Banner> {
                 });
               },
             ),
-            
             itemBuilder: (context, index, _) {
               return Image(
                 image: AssetImage(
@@ -52,10 +49,7 @@ class _BannerState extends State<Banner> {
             left: 16,
             bottom: 16,
             child: Row(
-              
-              children: 
-               List.generate(
-                
+              children: List.generate(
                 banners.length,
                 (index) {
                   return AnimatedContainer(
@@ -72,7 +66,6 @@ class _BannerState extends State<Banner> {
                   );
                 },
               ),
-              
             ),
           ),
         ],

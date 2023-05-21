@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class PriceContent extends StatelessWidget {
   const PriceContent({
-    super.key, required this.text,
+    super.key,
+    required this.text,
   });
-final String text;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,13 +20,11 @@ final String text;
                 fontWeight: FontWeight.w500),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10.0, vertical: 5.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             margin: const EdgeInsets.only(top: 5.0),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.circular(10.0)),
+                color: Colors.white, borderRadius: BorderRadius.circular(10.0)),
             child: Row(
               children: [
                 const Icon(
@@ -33,7 +32,7 @@ final String text;
                   color: Color(0xFFD2BE07),
                 ),
                 Text(
-              text,
+                  text,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15.0,
@@ -47,4 +46,3 @@ final String text;
     );
   }
 }
-

@@ -8,20 +8,23 @@ class AppTop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
-          SizedBox(
-                  height: 150,
-                  width: 300,
-                  child: Image.asset(logoImage,),
-                ),
-                Text(
-                  label,
-                  style: GoogleFonts.pacifico(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 50,
-                      color: const Color.fromARGB(255, 255, 213, 0),),
-                ),
+        SizedBox(
+          height: 150,
+          width: 300,
+          child: Image.asset(
+            logoImage,
+          ),
+        ),
+        Text(
+          label,
+          style: GoogleFonts.pacifico(
+            fontWeight: FontWeight.bold,
+            fontSize: 50,
+            color: const Color.fromARGB(255, 255, 213, 0),
+          ),
+        ),
       ],
     );
   }

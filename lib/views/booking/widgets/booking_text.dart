@@ -11,12 +11,8 @@ class BookingText extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 15.0),
       child: const Text(
         "Select Location, Date and Time",
-        style: TextStyle(
-            color: Colors.white,
-            fontSize: 17.0
-        ),
+        style: TextStyle(color: Colors.white, fontSize: 17.0),
       ),
     );
   }
 }
-

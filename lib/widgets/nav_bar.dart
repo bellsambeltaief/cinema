@@ -11,55 +11,46 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-   int _selectedIndex = 0;
+  int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-   static  final List<Widget> _widgetOptions = <Widget>[
-   const HomePage(),
-  const Cart(),
-   const ProfilePage()
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomePage(),
+    const Cart(),
+    const ProfilePage()
   ];
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: Center(
+      body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-        bottomNavigationBar: BottomNavigationBar(
-      backgroundColor: Colors.black,
-       
-        items:const [
-           BottomNavigationBarItem(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(
             icon: Icon(Icons.home_filled, size: 30),
             label: '',
-         
           ),
-            BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart, size: 30),
-             label: '',
-         
+            label: '',
           ),
-            BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded, size: 30),
-             label: '',
-         
+            label: '',
           ),
-          
-   
-    
         ],
-      currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.yellow,
         unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
-       
       ),
-
     );
   }
 }

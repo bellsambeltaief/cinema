@@ -34,13 +34,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   Future<void> _getCategories() async {
     try {
-      final response = await http.get(Uri.parse('http://monapi.com/categories'));
+      final response =
+          await http.get(Uri.parse('http://monapi.com/categories'));
 
       if (response.statusCode == 200) {
-        final jsonBody =jsonDecode(response.body);
+        final jsonBody = jsonDecode(response.body);
         final List<dynamic> jsonCategories = jsonBody['categories'];
         setState(() {
-          _categories = jsonCategories.map((jsonCategory) => Category.fromJson(jsonCategory)).toList();
+          _categories = jsonCategories
+              .map((jsonCategory) => Category.fromJson(jsonCategory))
+              .toList();
           _isLoading = false;
         });
       } else {

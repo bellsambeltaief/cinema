@@ -54,13 +54,15 @@ class _FilmsByCategoryPageState extends State<FilmsByCategoryPage> {
 
   Future<void> _getFilmsByIdCategorie(String idCategorie) async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.21:5000/categorie/'));
+      final response =
+          await http.get(Uri.parse('http://192.168.1.21:5000/categorie/'));
 
       if (response.statusCode == 200) {
         final jsonBody = jsonDecode(response.body);
         final List<dynamic> jsonFilms = jsonBody['films'];
         setState(() {
-          _films = jsonFilms.map((jsonFilm) => Film.fromJson(jsonFilm)).toList();
+          _films =
+              jsonFilms.map((jsonFilm) => Film.fromJson(jsonFilm)).toList();
           _isLoading = false;
         });
       } else {
@@ -82,20 +84,18 @@ class _FilmsByCategoryPageState extends State<FilmsByCategoryPage> {
     return Container(
       height: 500,
       width: 350,
-      child:  _isLoading
+      child: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _films.length,
               itemBuilder: (BuildContext context, int index) {
                 final film = _films[index];
-                               return ListTile(
+                return ListTile(
                   title: Text(film.title),
-                
                   subtitle: Text(film.categoryId),
                 );
               },
             ),
     );
-
   }
 }

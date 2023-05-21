@@ -7,10 +7,12 @@ import 'dart:convert';
 
 class ApiService {
   static Future<List<Category>> getCategories() async {
-    final response = await http.get(Uri.parse('http://192.168.100.57:5000/api/categorie'));
+    final response =
+        await http.get(Uri.parse('http://192.168.100.57:5000/api/categorie'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      return List<Category>.from(jsonData.map((category) => Category.fromJson(category)));
+      return List<Category>.from(
+          jsonData.map((category) => Category.fromJson(category)));
     } else {
       throw Exception('Failed to load categories');
     }
@@ -31,7 +33,6 @@ class _MovieAppState extends State<MovieApp> {
   @override
   void initState() {
     super.initState();
-    _categories = ApiService.getCategories();
   }
 
   void _onCategoryPressed(String category) {
@@ -44,42 +45,49 @@ class _MovieAppState extends State<MovieApp> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-          children: [
-            FutureBuilder<List<Category>>(
-              future: _categories,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final List<Category> categories = snapshot.data!;
-                  return SizedBox(
-                    height: 50,
-                    child: ListView(
+        children: [
+          FutureBuilder<List<Category>>(
+            future: ApiService.getCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                final List<Category> categories = snapshot.data!;
+                print(snapshot.data!.map((e) => e.id).toList());
+                return SizedBox(
+                  height: 50,
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
-                      children: categories
-                        .map((category) => CategoryButton(
-                              category: category.name,
-                              onPressed: () => _onCategoryPressed(category.id),
-                              isSelected:
-                                  category.id == _selectedCategory, // Set isSelected to true if the button corresponds to the selected category
-                            ))
-                        .toList(),
+                    children: snapshot.data!.map((category) {
+                      return CategoryButton(
+                        category: category.name,
+                        onPressed: () => _onCategoryPressed(category.id),
+                        isSelected: category.id ==
+                            _selectedCategory, // Set isSelected to true if the button corresponds to the selected category
+                      );
+                    }).toList(),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
+          const SizedBox(height: 40),
+          Container(
+            child: _selectedCategory.isEmpty
+                ? const Text(
+                    "No movies data\n No movies data \nNo movies data\nNo movies data\n No movies data",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
                     ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-           const SizedBox(height: 40),
-            Container(child:
-              _selectedCategory.isEmpty?
-             const Text("No movies data\n No movies data \nNo movies data\nNo movies data\n No movies data" , style: TextStyle(color: Colors.white, fontSize: 30,),):
-               MovieList(category: _selectedCategory),
-              ),
-          ],
+                  )
+                : MovieList(category: _selectedCategory),
+          ),
+        ],
       ),
     );
   }
 }
-

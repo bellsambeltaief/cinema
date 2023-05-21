@@ -13,7 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
 
-
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -25,11 +24,9 @@ class _SignUpState extends State<SignUp> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-
-
   final _formKey = GlobalKey<FormState>();
   Future save(String url) async {
-    var baseURL = dotenv.env['BASE_URL']; 
+    var baseURL = dotenv.env['BASE_URL'];
     debugPrint("$baseURL");
     var res = await post(
       Uri.parse("http://192.168.100.57:5000/api/users/"),
@@ -101,6 +98,7 @@ class _SignUpState extends State<SignUp> {
       debugPrint('error occured');
     }
   }
+
   User user = User('', '', '', '');
   @override
   Widget build(BuildContext context) {
@@ -117,10 +115,11 @@ class _SignUpState extends State<SignUp> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 90),
-                  const AppTop(logoImage: 'images/logo.png', label: "SignUp",),
-                    const SizedBox(
-                      height: 25
+                    const AppTop(
+                      logoImage: 'images/logo.png',
+                      label: "SignUp",
                     ),
+                    const SizedBox(height: 25),
                     GestureDetector(
                       onTap: () {
                         _showPicker(context);
@@ -138,148 +137,181 @@ class _SignUpState extends State<SignUp> {
                                   fit: BoxFit.fitHeight,
                                 ),
                               )
-                            :const  PicDetecotor(),
+                            : const PicDetecotor(),
                       ),
                     ),
-                Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        controller: TextEditingController(text: user.userName),
-        onChanged: (value) {
-          user.userName = value;
-        },
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Enter something';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            icon: const Icon(
-              Icons.person,
-              color: Color.fromARGB(255, 255, 213, 0),
-            ),
-            hintText: "Enter username",
-            hintStyle: const TextStyle(
-                fontSize: 20.0, color: Colors.white),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),),
-      ),
-    ),
-               Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        controller: TextEditingController(text: user.email),
-        onChanged: (value) {
-          user.email = value;
-        },
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Enter something';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            icon: const Icon(
-              Icons.person,
-              color: Color.fromARGB(255, 255, 213, 0),
-            ),
-            hintText: "Enter your Email",
-            hintStyle: const TextStyle(
-                fontSize: 20.0, color: Colors.white),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),),
-      ),
-    ),
-               Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        controller: TextEditingController(text: user.password),
-        onChanged: (value) {
-          user.password = value;
-        },
-        validator: (value) {
-          if (value!.isEmpty) {
-            return 'Enter something';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-            icon: const Icon(
-              Icons.person,
-              color: Color.fromARGB(255, 255, 213, 0),
-            ),
-            hintText: "Enter your password",
-            hintStyle: const TextStyle(
-                fontSize: 20.0, color: Colors.white),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),
-            focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 255, 213, 0),),),),
-      ),
-    ),
-          
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
+                        controller: TextEditingController(text: user.userName),
+                        onChanged: (value) {
+                          user.userName = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter something';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          icon: const Icon(
+                            Icons.person,
+                            color: Color.fromARGB(255, 255, 213, 0),
+                          ),
+                          hintText: "Enter username",
+                          hintStyle: const TextStyle(
+                              fontSize: 20.0, color: Colors.white),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
+                        controller: TextEditingController(text: user.email),
+                        onChanged: (value) {
+                          user.email = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter something';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          icon: const Icon(
+                            Icons.person,
+                            color: Color.fromARGB(255, 255, 213, 0),
+                          ),
+                          hintText: "Enter your Email",
+                          hintStyle: const TextStyle(
+                              fontSize: 20.0, color: Colors.white),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        style: const TextStyle(color: Colors.white),
+                        controller: TextEditingController(text: user.password),
+                        onChanged: (value) {
+                          user.password = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter something';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          icon: const Icon(
+                            Icons.person,
+                            color: Color.fromARGB(255, 255, 213, 0),
+                          ),
+                          hintText: "Enter your password",
+                          hintStyle: const TextStyle(
+                              fontSize: 20.0, color: Colors.white),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 255, 213, 0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(55, 16, 16, 0),
-                      child: ButtonSign(onPressed: (){
+                      child: ButtonSign(
+                        onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                                uploadFile();
-                              } else {
-                                debugPrint("not ok");
-                              }
-                      }, buttonText: 'SignUp',),
+                            uploadFile();
+                          } else {
+                            debugPrint("not ok");
+                          }
+                        },
+                        buttonText: 'SignUp',
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(95, 20, 0, 0),
-                      child: Account(onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SignIn()));
-          }, textAccount: 'SignIn', label:  'Already have Account ? ',),
+                      child: Account(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignIn()));
+                        },
+                        textAccount: 'SignIn',
+                        label: 'Already have Account ? ',
+                      ),
                     ),
                   ],
                 ),
@@ -320,4 +352,3 @@ class _SignUpState extends State<SignUp> {
         });
   }
 }
-

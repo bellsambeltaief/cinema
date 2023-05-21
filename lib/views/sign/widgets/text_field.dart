@@ -15,7 +15,7 @@
 // class _TextFieldEnterState extends State<TextFieldEnter> {
 //   @override
 //   Widget build(BuildContext context) {
-    
+
 //   User user = User('', '', '', '');
 //     return Padding(
 //       padding: const EdgeInsets.all(16.0),

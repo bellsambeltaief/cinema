@@ -1,4 +1,3 @@
-
 import 'package:cinemamovie/views/sign/sign_in.dart';
 import 'package:cinemamovie/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -12,20 +11,24 @@ class Logo extends StatefulWidget {
 }
 
 class _LogoState extends State<Logo> {
-
   void checkUserSignIn() async {
     const storage = FlutterSecureStorage();
     var existingData = await storage.read(key: "userData");
 
     Future.delayed(const Duration(seconds: 2), () {
-      if(existingData != null) {
+      if (existingData != null) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const NavBar(),),);
-      }
-
-      else {
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NavBar(),
+          ),
+        );
+      } else {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const SignIn(),));
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignIn(),
+            ));
       }
     });
   }
@@ -40,8 +43,8 @@ class _LogoState extends State<Logo> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox(
-        height: MediaQuery.of(context).size.height,        width: MediaQuery.of(context).size.width,
-
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
         child: Center(
           child: Image.asset('images/logo.png'),
         ),

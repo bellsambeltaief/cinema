@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 class TotalPrice extends StatelessWidget {
   const TotalPrice({
-    super.key, required this.priceText,
+    super.key,
+    required this.priceText,
   });
-final String priceText;
+  final String priceText;
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -30,8 +31,7 @@ final String priceText;
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                  priceText, 
-                    
+                    priceText,
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 17.0,
@@ -40,11 +40,10 @@ final String priceText;
                 ],
               ),
             ),
-           const CheckoutButton(),
+            const CheckoutButton(),
           ],
         ),
       ),
     );
   }
 }
-

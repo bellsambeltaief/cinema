@@ -44,8 +44,7 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading :false,
-        
+        automaticallyImplyLeading: false,
         title: const Text(
           'My Cart',
           style: TextStyle(
@@ -89,8 +88,8 @@ class _CartState extends State<Cart> {
                         child: Row(
                           children: [
                             Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 15.0),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: SizedBox(
@@ -103,17 +102,23 @@ class _CartState extends State<Cart> {
                             ),
                             SingleChildScrollView(
                               child: Column(
-                              
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                    MovieDetails(text:      movie["title"],),
-                                         MovieDetails(text:      movie["type"],),
-                                           MovieDetails(text:      movie["cinema"],),
-                                         
-                                                 MovieDetails(text:      "${movie["price"].toString()} DT",),
-                                                 MovieDetails(text:   " Your place is ${movie["seats"].length.toString()} "),
-                                 
+                                  MovieDetails(
+                                    text: movie["title"],
+                                  ),
+                                  MovieDetails(
+                                    text: movie["type"],
+                                  ),
+                                  MovieDetails(
+                                    text: movie["cinema"],
+                                  ),
+                                  MovieDetails(
+                                    text: "${movie["price"].toString()} DT",
+                                  ),
+                                  MovieDetails(
+                                      text:
+                                          " Your place is ${movie["seats"].length.toString()} "),
                                 ],
                               ),
                             )
@@ -125,13 +130,11 @@ class _CartState extends State<Cart> {
                   .toList(),
             ),
           ),
-         
-         
-          TotalPrice(priceText: "${calcPrice()} dt",),
-      
+          TotalPrice(
+            priceText: "${calcPrice()} dt",
+          ),
         ],
       ),
     );
   }
 }
-

@@ -5,10 +5,12 @@ import 'package:cinemamovie/views/booking/booking.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 class ApiService {
   static Future<List<Movie>> getMoviesByCategory(String category) async {
-    final response = await http.get(Uri.parse('http://192.168.100.57:5000/api/film/categorie/645384b050131ca571e02ce8'));
+    print(category);
+    final response = await http.get(
+        Uri.parse('http://192.168.100.57:5000/api/film/categorie/$category'));
+    print("${json.decode(response.body)}");
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Movie>.from(jsonData.map((movie) => Movie.fromJson(movie)));
@@ -32,7 +34,7 @@ class MovieList extends StatelessWidget {
           final List<Movie> filteredMovies = snapshot.data!;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-             mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Flexible(
                 child: ListView.builder(
@@ -42,51 +44,36 @@ class MovieList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final movie = filteredMovies[index];
                     return Column(
-
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           movie.title,
                           style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0
-                          ),
+                              color: Colors.white, fontSize: 18.0),
                         ),
                         Text(
                           movie.category,
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Text(
                           movie.description,
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Text(
                           movie.partner,
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Text(
                           ('${movie.age}'),
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Text(
                           movie.type,
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Text(
                           movie.image,
-                          style: const TextStyle(
-                              color: Colors.white
-                          ),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         Container(
                           height: 35.0,
@@ -101,10 +88,12 @@ class MovieList extends StatelessWidget {
                             ),
                           ),
                           child: ElevatedButton(
-                            onPressed:
-() {
+                            onPressed: () {
                               Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => Booking(movieData: movie)));
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Booking(movieData: movie)));
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
