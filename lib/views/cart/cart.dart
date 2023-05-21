@@ -1,6 +1,5 @@
 import 'package:cinemamovie/views/booking/booking.dart';
 import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
-import 'package:cinemamovie/views/cart/widgets/checkout_button.dart';
 import 'package:cinemamovie/views/cart/widgets/total_price.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
