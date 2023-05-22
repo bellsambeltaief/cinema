@@ -5,7 +5,7 @@ class BookingButton extends StatelessWidget {
   final VoidCallback onPressed;
   const BookingButton({
     super.key,
-   required this.onPressed,
+ required this.onPressed,
   });
 
   @override

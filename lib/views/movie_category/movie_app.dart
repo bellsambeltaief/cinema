@@ -30,7 +30,6 @@ class MovieApp extends StatefulWidget {
 }
 
 class _MovieAppState extends State<MovieApp> {
-  late Future<List<Category>> _categories;
   String _selectedCategory = '';
 
   @override
@@ -54,8 +53,6 @@ class _MovieAppState extends State<MovieApp> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
-                final List<Category> categories = snapshot.data!;
-                // print(snapshot.data!.map((e) => e.id).toList());
                 return SizedBox(
                   height: 50,
                   child: ListView(
@@ -81,7 +78,7 @@ class _MovieAppState extends State<MovieApp> {
           Container(
             child: _selectedCategory.isEmpty
                 ? const Text(
-                    "No movies data\n No movies data \nNo movies data\nNo movies data\n No movies data",
+                    "No movies data",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,

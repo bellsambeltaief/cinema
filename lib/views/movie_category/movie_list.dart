@@ -1,8 +1,5 @@
 import 'dart:convert';
-
 import 'package:cinemamovie/models/movie.dart';
-import 'package:cinemamovie/views/booking/booking.dart';
-import 'package:cinemamovie/views/booking/widgets/booking_button.dart';
 import 'package:cinemamovie/views/movie_category/widgets/movie_selected_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -22,10 +19,8 @@ class ApiService {
   }
 }
 
- 
 class MovieList extends StatefulWidget {
   final String category;
-  
 
   const MovieList({Key? key, required this.category}) : super(key: key);
 
@@ -34,7 +29,7 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-   String _selectedMovie = '';
+  String _selectedMovie = '';
   @override
   void initState() {
     super.initState();
@@ -53,27 +48,28 @@ class _MovieListState extends State<MovieList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final List<Movie> filteredMovies = snapshot.data!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: filteredMovies.length,
-                  itemBuilder: (context, index) {
-                    final movie = filteredMovies[index];
-                    return Column(
-                      children: [
-                        MovieSelectedDetails(movie: movie),
-                       
-                      ],
-                    );
-                  },
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: filteredMovies.length,
+                    itemBuilder: (context, index) {
+                      final movie = filteredMovies[index];
+                      return Column(
+                        children: [
+                          MovieSelectedDetails(movie: movie),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
@@ -84,4 +80,3 @@ class _MovieListState extends State<MovieList> {
     );
   }
 }
-

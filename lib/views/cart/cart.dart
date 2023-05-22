@@ -1,6 +1,6 @@
-import 'package:cinemamovie/views/booking/booking.dart';
 import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
 import 'package:cinemamovie/views/cart/widgets/total_price.dart';
+import 'package:cinemamovie/views/payment.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,11 +68,12 @@ class _CartState extends State<Cart> {
                   .map(
                     (movie) => GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             Booking(movieData: movie)));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Payment(),
+                          ),
+                        );
                       },
                       child: Container(
                         alignment: Alignment.center,

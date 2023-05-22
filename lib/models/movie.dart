@@ -15,8 +15,8 @@ class Movie {
     required this.title,
     required this.category,
     required this.id,
-     this.description,
-     this.partner,
+    this.description,
+    this.partner,
     required this.age,
     required this.type,
     required this.image,
@@ -28,7 +28,7 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
       title: json['title'].toString(),
-      id: json['id'].toString(),
+      id: json['_id'].toString(),
       category: json['categorie'].toString(),
       age: json['age'],
       type: json['type'].toString(),

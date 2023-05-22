@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'package:cinemamovie/models/movie.dart';
-import 'package:cinemamovie/views/booking/widgets/booking_button.dart';
+
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
-import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
 import 'package:cinemamovie/views/booking/widgets/price_content.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_condition.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_content.dart';
-import 'package:cinemamovie/views/cart/cart.dart';
-import 'package:cinemamovie/functions.dart';
-import 'package:cinemamovie/views/booking/widgets/pressed_button.dart';
-import 'package:cinemamovie/views/movie_category/widgets/movie_selected_details.dart';
+import 'package:cinemamovie/views/payment.dart';
+
+import 'package:cinemamovie/views/projection/projection_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,17 +41,17 @@ class _BookingState extends State<Booking> {
     return "${(parsedDate.hour >= 12) ? (parsedDate.hour - 12) : (parsedDate.hour)}:${parsedDate.minute} ${(parsedDate.hour >= 12) ? "PM" : "AM"}";
   }
 
-  // void getPrice() async {
-  //   await dotenv.load(fileName: ".env");
+  void getPrice() async {
+    await dotenv.load(fileName: ".env");
 
-  //   var res = await get(Uri.parse(
-  //       "http://192.168.100.57:5000/api/projections/"));
-  //   debugPrint(res.body);
+    var res = await get(
+        Uri.parse("http://192.168.100.57:5000/api/projections/getProjection"));
+    debugPrint(res.body);
 
-  //   setState(() {
-  //     projs = jsonDecode(res.body);
-  //   });
-  // }
+    setState(() {
+      // projs = jsonDecode(res.body);
+    });
+  }
 
   void getCinemas() async {
     await dotenv.load(fileName: ".env");
@@ -69,7 +67,7 @@ class _BookingState extends State<Booking> {
 
     storage.read(key: "cartData").then((cartData) {
       var matchMovie = jsonDecode(cartData!)
-          .where((i) => i["_id"] == widget.movieData["_id"])
+          .where((i) => i["_id"] == widget.movie.id)
           .toList();
       if (matchMovie.length != 0) {
         setState(() {
@@ -95,8 +93,8 @@ class _BookingState extends State<Booking> {
 
   @override
   void initState() {
-    // getStorageMovie();
-    // getPrice();
+    getStorageMovie();
+    getPrice();
     getCinemas();
     super.initState();
   }
@@ -139,11 +137,11 @@ class _BookingState extends State<Booking> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Image.asset(
-                      //   movie.image,
-                      //   height: 60,
-                      //   width: 60,
-                      // ),
+                      Image.asset(
+                        widget.movie.image,
+                        height: 60,
+                        width: 60,
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -238,86 +236,8 @@ class _BookingState extends State<Booking> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          const BookingText(),
-                          PressedButton(
-                            list: Row(
-                              children: cinemas
-                                  .asMap()
-                                  .entries
-                                  .map(
-                                    (entry) => Container(
-                                      margin:
-                                          const EdgeInsets.only(right: 15.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            selectedCinIdx = entry.key;
-                                          });
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              ((selectedCinIdx == entry.key)
-                                                  ? const Color(0xFFD2BE07)
-                                                  : const Color(0xFF939194)),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          entry.value["name"],
-                                          style:
-                                              const TextStyle(fontSize: 17.0),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                          if (selectedCinIdx == selectedTimeIdx) ...[
-                            PressedButton(
-                              list: Row(
-                                children: projs
-                                    .asMap()
-                                    .entries
-                                    .map(
-                                      (entry) => Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 15.0),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              selectedTimeIdx = entry.key;
-                                            });
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                ((selectedTimeIdx == entry.key)
-                                                    ? const Color(0xFFD2BE07)
-                                                    : const Color(0xFF939194)),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            formattedDate(
-                                                entry.value["dateProjection"]),
-                                            style:
-                                                const TextStyle(fontSize: 17.0),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
+                      const BookingText(),
+                      const ProjectionApp(),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.only(bottom: 15.0),
@@ -327,36 +247,42 @@ class _BookingState extends State<Booking> {
                           children: [
                             PriceContent(
                                 text:
-                                    "${projs.isEmpty ? "0" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
-                            BookingButton(
-                              onPressed: () async {
-                                if (selectedSeats.isEmpty) return;
-
-                                const storage = FlutterSecureStorage();
-                                String? cartData =
-                                    await storage.read(key: "cartData");
-
-                                var jsonCartData = jsonDecode(cartData!);
-                                var addMovie = widget.movieData;
-                                addMovie["seats"] = selectedSeats;
-                                addMovie["price"] =
-                                    projs[selectedTimeIdx]["prix"];
-
-                                jsonCartData.add(widget.movieData);
-                                //await storage.write(key: "cartData", value: jsonEncode([]));
-
-                                storage
-                                    .write(
-                                        key: "cartData",
-                                        value: jsonEncode(handleCartAdd(
-                                            jsonCartData, addMovie)))
-                                    .then((res) {
+                                    "${projs.isEmpty ? "10" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
+                            Container(
+                              width: 200.0,
+                              height: 40.0,
+                              margin: const EdgeInsets.only(left: 15.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topRight,
+                                  end: Alignment.bottomLeft,
+                                  colors: [
+                                    Color(0xfff64c18),
+                                    Color(0xffff8a1b)
+                                  ],
+                                  stops: [0.0, 1.0],
+                                ),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () async {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Cart()));
-                                });
-                              },
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Payment(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  primary: Colors.transparent,
+                                  onSurface: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                ),
+                                child: const Text("Book A Ticket"),
+                              ),
                             ),
                           ],
                         ),
@@ -365,6 +291,7 @@ class _BookingState extends State<Booking> {
                   ),
                 ),
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
