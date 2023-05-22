@@ -35,9 +35,7 @@ class Cinema {
     
       description: json['description'].toString(),
     
-      //   listProjection:List.from(json['projections']).map((projection) {
-      //   return Projection.fromJson(projection);
-      // }).toList(),
+    
     );
   }
 }

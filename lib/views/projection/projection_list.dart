@@ -1,21 +1,21 @@
 import 'dart:convert';
-import 'package:cinemamovie/models/movie.dart';
+
 import 'package:cinemamovie/models/projection.dart';
 import 'package:cinemamovie/views/projection/projection_selected_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static Future<List<Projection>> getProjection(
-      String cinema) async {
-
+  static Future<List<Projection>> getProjectionByIdSalle(
+      String cinemaId) async {
+    print('cinemaId: $cinemaId');
     final response = await http.get(Uri.parse(
-        'http://192.168.100.57:5000/api/projections/getProjection'));
-    // print("${json.decode(response.body)}");
+        'http://192.168.100.57:5000/api/projections/getProjectionByIdSalle/$cinemaId'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      return List<Projection>.from(
-          jsonData.map((projection) => Projection.fromJson(projection)));
+      return List<Projection>.from(jsonData.map(
+        (projection) => Projection.fromJson(projection),
+      ));
     } else {
       throw Exception('Failed to load projections');
     }
@@ -23,12 +23,11 @@ class ApiService {
 }
 
 class ProjectionList extends StatefulWidget {
-  final String cinema;
+  final String cinemaId;
 
   const ProjectionList({
     Key? key,
-    required this.cinema,
-
+    required this.cinemaId,
   }) : super(key: key);
 
   @override
@@ -44,8 +43,9 @@ class _ProjectionListState extends State<ProjectionList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Projection>>(
-      future: ApiService.getProjection(
-          widget.cinema),
+      future: ApiService.getProjectionByIdSalle(
+        widget.cinemaId,
+      ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final List<Projection> filteredProjections = snapshot.data!;
@@ -56,8 +56,12 @@ class _ProjectionListState extends State<ProjectionList> {
               itemCount: filteredProjections.length,
               itemBuilder: (context, index) {
                 final projection = filteredProjections[index];
-                return ProjectionsSelectedDetails(
-                  projection: projection,
+                return Column(
+                  children: [
+                    ProjectionsSelectedDetails(
+                      projection: projection,
+                    ),
+                  ],
                 );
               },
             ),

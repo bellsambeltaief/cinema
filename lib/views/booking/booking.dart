@@ -49,7 +49,7 @@ class _BookingState extends State<Booking> {
     debugPrint(res.body);
 
     setState(() {
-      // projs = jsonDecode(res.body);
+      projs = jsonDecode(res.body);
     });
   }
 
@@ -82,7 +82,7 @@ class _BookingState extends State<Booking> {
     if (matchMovie.length != 0) {
       cartData.removeWhere((i) => i["_id"] == movie["_id"]);
       matchMovie[0]["seats"] = movie["seats"];
-      matchMovie[0]["price"] = movie["price"];
+      matchMovie[0]["prix"] = movie["prix"];
       cartData.add(matchMovie[0]);
       return cartData;
     } else {
@@ -137,11 +137,11 @@ class _BookingState extends State<Booking> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        widget.movie.image,
-                        height: 60,
-                        width: 60,
-                      ),
+                      // Image.asset(
+                      //   widget.movie.image,
+                      //   height: 60,
+                      //   width: 60,
+                      // ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -245,9 +245,9 @@ class _BookingState extends State<Booking> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            PriceContent(
-                                text:
-                                    "${projs.isEmpty ? "10" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
+                            // PriceContent(
+                            //     text:
+                            //         "${projs.isEmpty ? "10" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
                             Container(
                               width: 200.0,
                               height: 40.0,

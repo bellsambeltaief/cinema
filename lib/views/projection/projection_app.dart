@@ -32,7 +32,7 @@ class ProjectionApp extends StatefulWidget {
 class _ProjectionAppState extends State<ProjectionApp> {
   // late Future<List<Category>> _categories;
   String _selectedCinema = '';
-  String _selectedFilm = '';
+
 
   @override
   void initState() {
@@ -45,11 +45,7 @@ class _ProjectionAppState extends State<ProjectionApp> {
     });
   }
 
-  void _onFilmPressed(String film) {
-    setState(() {
-      _selectedFilm = film;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +91,7 @@ class _ProjectionAppState extends State<ProjectionApp> {
                     ),
                   )
                 : ProjectionList(
-                    cinema: _selectedCinema,
+                    cinemaId: _selectedCinema,
                   ),
           ),
         ],

@@ -21,7 +21,7 @@ class _NavBarState extends State<NavBar> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     
-    const Cart(),
+     Cart(),
     const ProfilePage()
   ];
 

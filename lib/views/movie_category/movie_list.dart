@@ -29,17 +29,7 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-  String _selectedMovie = '';
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  void _onMoviePressed(String movie) {
-    setState(() {
-      _selectedMovie = movie;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

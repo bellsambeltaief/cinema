@@ -114,7 +114,7 @@ class _CartState extends State<Cart> {
                                     text: movie["cinema"],
                                   ),
                                   MovieDetails(
-                                    text: "${movie["price"].toString()} DT",
+                                    text: "${movie["prix"].toString()} DT",
                                   ),
                                   MovieDetails(
                                       text:

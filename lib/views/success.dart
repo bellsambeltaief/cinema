@@ -43,12 +43,12 @@ class _SuccessState extends State<Success> {
               Center(
                 child: Account(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Cart(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>  Cart(movie: movie,),
+                      //   ),
+                      // );
                     },
                     textAccount: "My Cart",
                     label: "Want to check your Cart? "),
