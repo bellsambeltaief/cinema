@@ -178,8 +178,12 @@ class _SignInState extends State<SignIn> {
               ),
               Account(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SignUp()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUp(),
+                    ),
+                  );
                 },
                 label: 'You dont have an account ?',
                 textAccount: 'SignUp',

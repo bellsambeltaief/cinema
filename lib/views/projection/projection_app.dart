@@ -30,7 +30,7 @@ class ProjectionApp extends StatefulWidget {
 }
 
 class _ProjectionAppState extends State<ProjectionApp> {
-  // late Future<List<Category>> _categories;
+
   String _selectedCinema = '';
 
   @override
@@ -47,17 +47,18 @@ class _ProjectionAppState extends State<ProjectionApp> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Column(
-        children: [
-          FutureBuilder<List<Cinema>>(
-            future: ApiService.getCinema(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                return SizedBox(
-                  height: 50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FutureBuilder<List<Cinema>>(
+              future: ApiService.getCinema(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return SizedBox(
+                    height: 50,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: snapshot.data!.map((cinema) {
@@ -68,30 +69,29 @@ class _ProjectionAppState extends State<ProjectionApp> {
                         );
                       }).toList(),
                     ),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
-          const SizedBox(height: 40),
-          Container(
-            child: _selectedCinema.isEmpty
-                ? const Text(
-                    "",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+            Container(
+              child: _selectedCinema.isEmpty
+                  ? const Text(
+                      "",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                      ),
+                    )
+                  : ProjectionList(
+                      cinemaId: _selectedCinema,
                     ),
-                  )
-                : ProjectionList(
-                    cinemaId: _selectedCinema,
-                  ),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

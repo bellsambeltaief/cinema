@@ -21,7 +21,9 @@ class SeatsCondition extends StatelessWidget {
           Text(
             conditionText,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w500),
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ],
       ),

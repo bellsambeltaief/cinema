@@ -5,7 +5,7 @@ class CategoryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isSelected;
 
-  const CategoryButton({
+  const CategoryButton({super.key, 
     required this.category,
     required this.onPressed,
     this.isSelected = false,

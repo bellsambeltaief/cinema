@@ -26,7 +26,7 @@ class MovieApp extends StatefulWidget {
   const MovieApp({super.key});
 
   @override
-  _MovieAppState createState() => _MovieAppState();
+ State <MovieApp> createState() => _MovieAppState();
 }
 
 class _MovieAppState extends State<MovieApp> {

@@ -6,10 +6,9 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static Future<List<Movie>> getMoviesByCategory(String category) async {
-    print(category);
     final response = await http.get(
         Uri.parse('http://192.168.100.57:5000/api/film/categorie/$category'));
-    print("${json.decode(response.body)}");
+
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Movie>.from(jsonData.map((movie) => Movie.fromJson(movie)));
@@ -29,8 +28,6 @@ class MovieList extends StatefulWidget {
 }
 
 class _MovieListState extends State<MovieList> {
-
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Movie>>(

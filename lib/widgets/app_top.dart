@@ -4,7 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTop extends StatelessWidget {
   final String logoImage;
   final String label;
-  const AppTop({super.key, required this.logoImage, required this.label});
+  const AppTop({
+    super.key,
+    required this.logoImage,
+    required this.label,
+  });
 
   @override
   Widget build(BuildContext context) {

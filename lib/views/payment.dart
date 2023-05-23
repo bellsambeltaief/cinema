@@ -1,14 +1,6 @@
-import 'package:cinemamovie/views/sign/sign_up.dart';
-import 'package:cinemamovie/views/home/home_page.dart';
-import 'package:cinemamovie/models/user.dart';
 import 'package:cinemamovie/views/sign/widgets/button_sign.dart';
 import 'package:cinemamovie/views/success.dart';
-import 'package:cinemamovie/widgets/account.dart';
-import 'package:cinemamovie/widgets/app_top.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Payment extends StatefulWidget {
   const Payment({Key? key}) : super(key: key);
@@ -176,16 +168,18 @@ class _PaymentState extends State<Payment> {
                       ),
                     ],
                   ),
-                  ButtonSign(buttonText: 'Pay', onPressed: () { 
- Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Success(),
-                                    ),
-                                  );
-                   },)
+                  ButtonSign(
+                    buttonText: 'Pay',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Success(),
+                        ),
+                      );
+                    },
+                  )
                 ],
-
               ),
             )
           ],

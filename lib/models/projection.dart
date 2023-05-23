@@ -1,5 +1,3 @@
-
-
 class Projection {
   final DateTime dateProjection;
   final double prix;
@@ -7,14 +5,12 @@ class Projection {
   final String name;
   final String cinemaId;
 
-
   Projection({
     required this.id,
     required this.name,
     required this.prix,
     required this.dateProjection,
     required this.cinemaId,
-
   });
 
   factory Projection.fromJson(Map<String, dynamic> json) {

@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:flutter/material.dart';
 
 class TimeElement {
   final int hour;
@@ -27,9 +27,9 @@ class Movie {
   final String type;
   final String image;
   final String video;
-  final String imagesStars;
+  final List<String> imagesStars;
   final List? listProjection;
-  final TimeElement? timestamps;
+  final TimeOfDay? timestamps;
 
   Movie({
     required this.title,
@@ -57,10 +57,13 @@ class Movie {
       image: json['image'].toString(),
       partner: json['partner'].toString(),
       timestamps: json['timestamps'] != null
-          ? TimeElement.fromJson(json['timestamps'])
+          ? TimeOfDay.fromDateTime(json['timestamps'])
           : null,
-      imagesStars:json['imagesStars'].toString(),
+          
       video: json['video'].toString(),
+      imagesStars: List<String>.from(
+        json['imagesStars'],
+      ),
     );
   }
 }

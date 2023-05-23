@@ -5,7 +5,7 @@ class CinemaButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isSelected;
 
-  const CinemaButton({
+  const CinemaButton({super.key, 
     required this.text,
     required this.onPressed,
     this.isSelected = false,

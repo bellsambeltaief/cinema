@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class ButtonSign extends StatefulWidget {
   final void Function() onPressed;
   final String buttonText;
-  const ButtonSign(
-      {super.key, required this.onPressed, required this.buttonText});
+  const ButtonSign({
+    super.key,
+    required this.onPressed,
+    required this.buttonText,
+  });
 
   @override
   State<ButtonSign> createState() => _ButtonSignState();
@@ -33,7 +36,10 @@ class _ButtonSignState extends State<ButtonSign> {
         onPressed: widget.onPressed,
         child: Text(
           widget.buttonText,
-          style: const TextStyle(color: Colors.black, fontSize: 20),
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
         ),
       ),
     );

@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static Future<List<Projection>> getProjectionByIdSalle(
       String cinemaId) async {
-    print('cinemaId: $cinemaId');
+  
     final response = await http.get(Uri.parse(
         'http://192.168.100.57:5000/api/projections/getProjectionByIdSalle/$cinemaId'));
     if (response.statusCode == 200) {

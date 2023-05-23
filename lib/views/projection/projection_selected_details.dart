@@ -1,6 +1,5 @@
 import 'package:cinemamovie/models/projection.dart';
 import 'package:cinemamovie/views/projection/cinema_button.dart';
-import 'package:cinemamovie/views/projection/projection_list.dart';
 import 'package:flutter/material.dart';
 
 class ProjectionsSelectedDetails extends StatefulWidget {
@@ -52,7 +51,9 @@ class _ProjectionsSelectedDetailsState
                     ),
                   )
                 : CinemaButton(
-                    text: '${widget.projection.prix} TND', onPressed: () {}),
+                    text: '${widget.projection.prix} TND',
+                    onPressed: () {},
+                  ),
           ),
         ],
       ),

@@ -21,7 +21,10 @@ class CheckoutButton extends StatelessWidget {
         child: const Text(
           "Check Out",
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 16.0),
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 16.0,
+          ),
         ),
       ),
     );

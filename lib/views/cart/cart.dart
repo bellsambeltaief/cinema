@@ -1,4 +1,4 @@
-import 'package:cinemamovie/views/booking/widgets/movie_details.dart';
+import 'package:cinemamovie/views/cart/widgets/movie_details.dart';
 import 'package:cinemamovie/views/cart/widgets/total_price.dart';
 import 'package:cinemamovie/views/payment.dart';
 import 'package:flutter/material.dart';

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BookingButton extends StatelessWidget {
-
   final VoidCallback onPressed;
   const BookingButton({
     super.key,
- required this.onPressed,
+    required this.onPressed,
   });
 
   @override
@@ -19,7 +18,10 @@ class BookingButton extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [Color(0xfff64c18), Color(0xffff8a1b)],
+          colors: [
+            Color(0xfff64c18),
+            Color(0xffff8a1b),
+          ],
           stops: [0.0, 1.0],
         ),
       ),

@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:js_interop';
 import 'package:cinemamovie/models/movie.dart';
-
+import 'package:cinemamovie/models/projection.dart';
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
-import 'package:cinemamovie/views/booking/widgets/price_content.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_condition.dart';
 import 'package:cinemamovie/views/booking/widgets/seats_content.dart';
+import 'package:cinemamovie/views/movie/movie_detail.dart';
 import 'package:cinemamovie/views/payment.dart';
-
 import 'package:cinemamovie/views/projection/projection_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,6 +15,7 @@ import 'package:http/http.dart';
 class Booking extends StatefulWidget {
   final movieData;
   final Movie movie;
+
   const Booking({
     Key? key,
     this.movieData,
@@ -125,52 +124,59 @@ class _BookingState extends State<Booking> {
                 height: 10,
               ),
               Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: (MediaQuery.of(context).size.width - 50.0),
-                  height: 230.0,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  margin: const EdgeInsets.only(bottom: 10.0),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2b2a3a),
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.network(widget.movie.image),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieDetail(
+                          moviesDetails: widget.movie,
+                        ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.movie.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: (MediaQuery.of(context).size.width - 50.0),
+                    height: 230.0,
+                    padding: const EdgeInsets.all(6.0),
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2b2a3a),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Image.network(widget.movie.image),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.movie.title,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          // Text(
-                          //   widget.movie.category,
-                          //   style: const TextStyle(color: Colors.white),
-                          // ),
-                          const SizedBox(height: 10),
-                          Text(
-                            ('${widget.movie.age}'),
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            widget.movie.type,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ],
+                            const SizedBox(height: 10),
+                        
+                            const SizedBox(height: 10),
+                            Text(
+                              ('${widget.movie.age} Ans'),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              widget.movie.type,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -245,9 +251,6 @@ class _BookingState extends State<Booking> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            // PriceContent(
-                            //     text:
-                            //         "${projs.isEmpty ? "10" : (projs[selectedTimeIdx]["prix"]).toString()} dt"),
                             Container(
                               width: 200.0,
                               height: 40.0,

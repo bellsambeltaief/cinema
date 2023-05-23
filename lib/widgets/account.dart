@@ -17,8 +17,10 @@ class Account extends StatelessWidget {
       children: [
         Text(
           label,
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         InkWell(
           onTap: onTap,

@@ -13,7 +13,7 @@ class MovieDetails extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: Text(
         text,
-        style: const TextStyle(color: Colors.white, fontSize: 18.0),
+        style: const TextStyle(color: Colors.white, fontSize: 18.0,),
       ),
     );
   }

@@ -9,7 +9,9 @@ class PicDetecotor extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey[200], borderRadius: BorderRadius.circular(50)),
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(50),
+      ),
       width: 100,
       height: 100,
       child: Icon(
