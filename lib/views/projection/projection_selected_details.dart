@@ -45,7 +45,7 @@ class _ProjectionsSelectedDetailsState
           Container(
             child: _selectedProjection.isEmpty
                 ? const Text(
-                    "error",
+                    "",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,

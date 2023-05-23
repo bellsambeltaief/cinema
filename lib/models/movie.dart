@@ -1,3 +1,5 @@
+import 'package:cinemamovie/models/category.dart';
+
 class Movie {
   final String id;
   final String title;
@@ -29,7 +31,7 @@ class Movie {
     return Movie(
       title: json['title'].toString(),
       id: json['_id'].toString(),
-      category: json['categorie'].toString(),
+      category: json['categorie'],
       age: json['age'],
       type: json['type'].toString(),
       description: json['description'].toString(),

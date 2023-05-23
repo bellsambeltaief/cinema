@@ -25,11 +25,10 @@ class MovieSelectedDetails extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Image.asset(
-          //   movie.image,
-          //   height: 60,
-          //   width: 60,
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.network(movie.image),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -33,7 +33,6 @@ class _ProjectionAppState extends State<ProjectionApp> {
   // late Future<List<Category>> _categories;
   String _selectedCinema = '';
 
-
   @override
   void initState() {
     super.initState();
@@ -44,8 +43,6 @@ class _ProjectionAppState extends State<ProjectionApp> {
       _selectedCinema = cinema;
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +81,7 @@ class _ProjectionAppState extends State<ProjectionApp> {
           Container(
             child: _selectedCinema.isEmpty
                 ? const Text(
-                    "error",
+                    "",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,

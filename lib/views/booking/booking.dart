@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js_interop';
 import 'package:cinemamovie/models/movie.dart';
 
 import 'package:cinemamovie/views/booking/widgets/booking_text.dart';
@@ -137,11 +138,10 @@ class _BookingState extends State<Booking> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Image.asset(
-                      //   widget.movie.image,
-                      //   height: 60,
-                      //   width: 60,
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(widget.movie.image),
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -153,10 +153,10 @@ class _BookingState extends State<Booking> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                            widget.movie.category,
-                            style: const TextStyle(color: Colors.white),
-                          ),
+                          // Text(
+                          //   widget.movie.category,
+                          //   style: const TextStyle(color: Colors.white),
+                          // ),
                           const SizedBox(height: 10),
                           Text(
                             ('${widget.movie.age}'),
