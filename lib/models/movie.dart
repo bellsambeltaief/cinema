@@ -1,29 +1,48 @@
-import 'package:cinemamovie/models/category.dart';
+import 'dart:html';
+
+class TimeElement {
+  final int hour;
+  final int minute;
+
+  TimeElement({
+    required this.hour,
+    required this.minute,
+  });
+
+  factory TimeElement.fromJson(Map<String, dynamic> json) {
+    return TimeElement(
+      hour: json['hour'],
+      minute: json['minute'],
+    );
+  }
+}
 
 class Movie {
   final String id;
   final String title;
   final String category;
-  final String? description;
+  final String description;
   final String? partner;
   final int age;
   final String type;
   final String image;
-  final String? video;
-  final String? imagesStars;
+  final String video;
+  final String imagesStars;
   final List? listProjection;
+  final TimeElement? timestamps;
 
   Movie({
     required this.title,
+    required this.timestamps,
     required this.category,
     required this.id,
-    this.description,
+    required this.description,
     this.partner,
     required this.age,
     required this.type,
     required this.image,
-    this.video,
-    this.imagesStars,
+    required this.video,
+    required this.imagesStars,
     this.listProjection,
   });
 
@@ -37,6 +56,11 @@ class Movie {
       description: json['description'].toString(),
       image: json['image'].toString(),
       partner: json['partner'].toString(),
+      timestamps: json['timestamps'] != null
+          ? TimeElement.fromJson(json['timestamps'])
+          : null,
+      imagesStars:json['imagesStars'].toString(),
+      video: json['video'].toString(),
     );
   }
 }
